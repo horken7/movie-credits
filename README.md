@@ -1,2 +1,17 @@
 # movie_credits
 Machine learning program to flag new credits
+
+ RULES:
+ 1       Movies and recurring TV roles only, no TV guest appearances
+ 2       Please submit entries in the format outlined at the end of the list
+ 3       Feel free to submit new actors
+
+ "xxxxx"        = a television series
+ "xxxxx" (mini) = a television mini-series
+ [xxxxx]        = character name
+ <xx>           = number to indicate billing position in credits
+ (TV)           = TV movie, or made for cable movie
+ (V)            = made for video movie (this category does NOT include TV
+                  episodes repackaged for video, guest appearances in
+                  variety/comedy specials released on video, or
+				  self-help/physical fitness videos)
