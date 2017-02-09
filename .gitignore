@@ -5,3 +5,8 @@ tmp.list
 
 #cache
 __pycache__/filetools.cpython-35.pyc
+
+
+# code files
+clean.py
+filetools.py
