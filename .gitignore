@@ -1,2 +1,5 @@
 actors.list
 actresses.list
+tmp.list
+
+__pycache__/filetools.cpython-35.pyc
