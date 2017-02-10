@@ -2,12 +2,20 @@
 actors.list
 actresses.list
 tmp.list
+2017-02-09_223251_ImdbParserOutput/*
 
 #cache
-__pycache__/filetools.cpython-35.pyc
+__pycache__/*
+clean/__pycache__/*
+
+
+.idea/*
 
 
 # code files
-clean.py
-filetools.py
+clean/filetools.py
 scheduler.py
+test_space/*
+
+# personal
+TODO.md
