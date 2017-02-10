@@ -10,6 +10,8 @@ __pycache__/filetools.cpython-35.pyc
 
 # code files
 clean.py
-filetools.py
+clean/filetools.py
 scheduler.py
 
+# personal
+TODO.md
