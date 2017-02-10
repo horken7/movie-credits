@@ -9,7 +9,9 @@ argument movie, expects a String
 return Boolean
 """
 
-p = re.compile('".*"')
+non_movie_pattern = re.compile('".*"') # pattern: "xxxx"
+
+character_name_pattern = re.compile('\[.*\]')
 
 # r = requests.get('http://www.omdbapi.com/?t=Sofies+verden')
 # print(r.status_code)
@@ -21,7 +23,34 @@ def clean(tv: List):
     :param tv: list
     :return: new list
     """
+    newlist = []
 
-    a = filter(p.match, tv[0])
-    print(list(a))
+    for item in tv:
+        #item is a string
+
+        match1 = non_movie_pattern.search(item)
+        if match1: #skip line
+            return
+
+    # remove element on line
+        # find the element position which is not None
+        print(character_name_pattern.sub("", item))
+
+
+
+
+    #print([item for item in tv if character_name_pattern.search(item) is None])
+
+
+
+
+
+
+
+
+
+
+
+
+
 
