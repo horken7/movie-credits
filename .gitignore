@@ -7,7 +7,7 @@ tmp.pkl
 
 #cache
 __pycache__/*
-clean/__pycache__/*
+*/__pycache__/*
 
 
 .idea/*
