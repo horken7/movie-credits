@@ -27,6 +27,7 @@ def clean(tv: List):
     :param tv: list
     :return: new list
     """
+
     for item in tv:
         # item is a string of the whole row
 
@@ -39,4 +40,4 @@ def clean(tv: List):
         newline = character_name.sub("", item)
         string = newline.split('\t')
         newlist = remove_empty(string)
-        print(newlist)
+        return newlist

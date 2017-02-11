@@ -3,10 +3,11 @@ actors.list
 actresses.list
 tmp.list
 2017-02-09_223251_ImdbParserOutput/*
+tmp.pkl
 
 #cache
 __pycache__/*
-clean/__pycache__/*
+*/__pycache__/*
 
 
 .idea/*

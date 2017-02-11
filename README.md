@@ -1,3 +1,26 @@
+### Running Andrew's Code (Works on Macs/Linux Only):
+**It will work on windows but I will need to make some fine adjustments...**
+
+Inside `datacleaning.py`
+
+    1. make sure to change the path to your tsv file:
+```python
+filename = "2017-02-09_223251_ImdbParserOutput/actors.list.tsv" # please change this path to your own file path to the tsv file
+```
+
+    2. and comment out: 
+
+```python
+if index > 1000:  # remove these two lines if you want to run through the whole file
+    break
+```
+
+    3. Run it `python datacleaning.py`
+
+
+
+
+
 # movie_credits
 Machine learning program to flag new credits
 
@@ -27,3 +50,4 @@ Please look at this in **Raw**
 	* Documentaries lie in (TV), [A documentary is a broad term to describe a non-fiction movie](http://www.desktop-documentaries.com/what-is-a-documentary.html)
 	* (V) Music feature films lie in (V) 
 * Do we keep uncredited?
+* The first element always seems to be the name of the actor
