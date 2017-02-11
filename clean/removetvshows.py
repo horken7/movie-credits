@@ -9,13 +9,17 @@ argument movie, expects a String
 return Boolean
 """
 
-non_movie_pattern = re.compile('".*"') # pattern: "xxxx"
+non_movie = re.compile('".*"')  # pattern: "xxxx"
+character_name = re.compile('\[.*\]', re.DOTALL)
 
-character_name_pattern = re.compile('\[.*\]')
 
 # r = requests.get('http://www.omdbapi.com/?t=Sofies+verden')
 # print(r.status_code)
 # print(r.json())
+
+def remove_empty(string):
+    return [item for item in string if item]
+
 
 def clean(tv: List):
     """
@@ -23,34 +27,16 @@ def clean(tv: List):
     :param tv: list
     :return: new list
     """
-    newlist = []
-
     for item in tv:
-        #item is a string
+        # item is a string of the whole row
 
-        match1 = non_movie_pattern.search(item)
-        if match1: #skip line
+        # skip "xxxx"
+        unwanted = non_movie.search(item)
+        if unwanted:  # skip line
             return
 
-    # remove element on line
-        # find the element position which is not None
-        print(character_name_pattern.sub("", item))
-
-
-
-
-    #print([item for item in tv if character_name_pattern.search(item) is None])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        # remove [xxxx]
+        newline = character_name.sub("", item)
+        string = newline.split('\t')
+        newlist = remove_empty(string)
+        print(newlist)
