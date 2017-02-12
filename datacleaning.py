@@ -1,5 +1,5 @@
 import csv
-import clean.removetvshows as clean
+import clean.clean as clean
 import clean.filetools as filetool
 import pickle
 import time
@@ -9,7 +9,7 @@ out_file = "tmp.pkl"
 actors = set()
 
 # pre-ready
-filetool.clean(out_file)
+filetool.create(out_file)
 start_time = time.time()
 print("Processing file... This may take a while.")
 
@@ -21,14 +21,24 @@ with open(filename, mode='r') as file, open(out_file, mode='wb') as output:
 
         if clean_row:
             #uniquepeople.view(clean_row)
-            name = (clean_row[0])
-            actors.add(name)
 
-        #if index > 1000:  # remove these two lines if you want to run through the whole file
+            first_name = clean_row[1]
+            last_name = clean_row[0]
+
+            if first_name is None:
+                pass
+            else:
+                name = (first_name + " " + last_name)
+                actors.add(name)
+
+
+
+       # if index > 1000:  # remove these two lines if you want to run through the whole file
         #   break
 
     pickle.dump(actors, output)
 
+print(actors)
 print("program finished it took {}".format(time.time()-start_time))
 
 
