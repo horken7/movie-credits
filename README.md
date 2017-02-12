@@ -17,6 +17,11 @@ if index > 1000:  # remove these two lines if you want to run through the whole 
 
     3. Run it `python datacleaning.py`
 
+### Results
+
+no. of actors 2010940
+
+no. of movies 1042622
 
 
 

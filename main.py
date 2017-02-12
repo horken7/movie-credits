@@ -1,6 +1,9 @@
 import pickle
+from collections import namedtuple
 
-filename = "tmp.pkl"
+Actor = namedtuple('Actor', ['name', 'extra'])
+
+filename = "unique_actors.pkl"
 
 with open(filename, "rb") as file:
     reader = pickle.load(file)
