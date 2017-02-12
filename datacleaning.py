@@ -4,42 +4,60 @@ import clean.filetools as filetool
 import pickle
 import time
 
-filename = "2017-02-09_223251_ImdbParserOutput/actors.list.tsv" # please change this path to your own file path to the tsv file
-out_file = "tmp.pkl"
-actors = set()
 
-# pre-ready
-filetool.create(out_file)
-start_time = time.time()
-print("Processing file... This may take a while.")
+def main():
+    filename = "2017-02-09_223251_ImdbParserOutput/actors.list.tsv" # please change this path to your own file path to the tsv file
+    actors_file = "unique_actors.pkl"
+    actors = set()
 
-with open(filename, mode='r') as file, open(out_file, mode='wb') as output:
-    reader = csv.reader(file)
+    # pre-ready
+    filetool.create(actors_file)
+    start_time = time.time()
+    print("Processing file... This may take a while.")
 
-    for index ,row in enumerate(reader):
-        clean_row = clean.clean(row)
+    with open(filename, mode='r') as file, open(actors_file, mode='r') as output: # make sure to change 'wb' <<<<<
+        reader = csv.reader(file)
 
-        if clean_row:
-            #uniquepeople.view(clean_row)
+        for index ,row in enumerate(reader):
+            clean_row = clean.clean(row)
 
-            first_name = clean_row[1]
-            last_name = clean_row[0]
+            if clean_row:
+                # uniquepeople.view(clean_row)
 
-            if first_name is None:
-                pass
-            else:
-                name = (first_name + " " + last_name)
-                actors.add(name)
+                find_names(clean_row, actors)
 
 
 
-       # if index > 1000:  # remove these two lines if you want to run through the whole file
-        #   break
+            if index > 1000:  # remove these two lines if you want to run through the whole file
+                break
 
-    pickle.dump(actors, output)
+        # pickle.dump(actors, output)
 
-print(actors)
-print("program finished it took {}".format(time.time()-start_time))
+    print(actors)
+    del actors
+
+    print("program finished it took {}".format(time.time()-start_time))
+
+def find_names(info, actors):
+    """
+    Find the names and save it in the actors
+    :param info: List
+    :param actors: Set container
+    """
+    first_name = info[1]
+    last_name = info[0]
+
+    if first_name is None:
+        pass
+    else:
+        name = (first_name + " " + last_name)
+        actors.add(name)
+
+
+
+
+if __name__ == "__main__":
+    main()
 
 
 
