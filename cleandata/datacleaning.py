@@ -2,7 +2,7 @@ import csv
 import pickle
 import time
 from collections import defaultdict
-from mc.utils import clean, filehandler, generate
+from .mc.utils import clean, filehandler, generate
 
 TOTALMOVIES = 1042622
 #Actor = namedtuple('Actor', ['name', 'extra'])
