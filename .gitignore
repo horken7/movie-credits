@@ -1,9 +1,12 @@
 # files
 actors.list
 actresses.list
-tmp.list
 2017-02-09_223251_ImdbParserOutput/*
-tmp.pkl
+actor_dict_lite.pkl
+movie_dict_lite.pkl
+unique_actors_lite.pkl
+unique_movie_lite.pkl
+unique_actors.pkl
 
 #cache
 __pycache__/*

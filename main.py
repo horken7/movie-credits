@@ -2,13 +2,20 @@ import pickle
 from collections import namedtuple
 
 Actor = namedtuple('Actor', ['name', 'extra'])
+filename = "movie_dict_lite.pkl"
+filename2 = "actor_dict_lite.pkl"
 
-filename = "unique_actors.pkl"
+with open(filename, "rb") as file, open(filename2, "rb") as file2:
+    data = pickle.load(file)
+    data2 = pickle.load(file2)
 
-with open(filename, "rb") as file:
-    reader = pickle.load(file)
+#print(data, "\n", "no. of unique {movie|actors?}",len(data))
 
-print(reader, "\n", "no. of unique actors",len(reader))
+print(data)
+print()
+print(data2)
+
+
 
 
 mapping = {}
