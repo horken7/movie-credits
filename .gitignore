@@ -7,6 +7,7 @@ movie_dict_lite.pkl
 unique_actors_lite.pkl
 unique_movie_lite.pkl
 unique_actors.pkl
+movie2actor.pkl
 
 #cache
 __pycache__/*
