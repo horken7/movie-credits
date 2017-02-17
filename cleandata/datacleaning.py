@@ -9,10 +9,28 @@ INPUT = "/Users/Andrew/Github-repo/movie_credits/2017-02-09_223251_ImdbParserOut
 OUTPUT = 'map_lite.pkl'
 
 # generate desired files
+GENERATE = [
+    #'actor movie'
+    #'unique actor movie'
+    'filtered csv'
+]
+
+make = generate.Generate(INPUT, stop=100000)
+
+options = {'actor movie': make.actor_movie(),
+           'unique actor movie': make.unique_actor_movie(),
+           'filtered csv': make.filtered_csv()
+           }
+
+for option in GENERATE:
+    options.get(option)
+
+"""
 if not filehandler.exist('movie2actor.pkl'):
-    generate.actor_movie(INPUT)
-#generate.unique_actor_movie(INPUT)
-#generate.filtered_csv(INPUT)
+    make.actor_movie()
+#make.unique_actor_movie()
+make.filtered_csv()
+"""
 
 
 def main():

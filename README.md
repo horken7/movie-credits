@@ -12,7 +12,7 @@ filename = "2017-02-09_223251_ImdbParserOutput/actors.list.tsv" # please change 
     2. Run it `python3 datacleaning.py` or `python datacleaning.py`
 
 ##### output
-your **actors.list.tsv.csv** will most likely be located where the tsv file is. 
+your **actors.list.tsv.csv** will be located where the tsv file is. 
 
 ### Results
 
