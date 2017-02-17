@@ -12,6 +12,7 @@ OUTPUT = 'map_lite.pkl'
 if not filehandler.exist('movie2actor.pkl'):
     generate.actor_movie(INPUT)
 #generate.unique_actor_movie(INPUT)
+generate.filtered_csv(INPUT)
 
 
 def main():

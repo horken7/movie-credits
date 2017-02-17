@@ -43,29 +43,6 @@ def actor_movie(input):
     print("Done: Generated movie2actors")
 
 
-def _generate_id(actors, movies):
-    """
-    Generate an id for the movies and actors
-    :param actors: set
-    :param movies: set
-    """
-    actor_id = {id: element for id, element in enumerate(actors)}
-    movie_id = {id: element for id, element in enumerate(movies)}
-
-    with open(ACTORS_DICT, mode='wb') as actor_d, open(MOVIE_DICT, mode='wb') as movie_d:
-        pickle.dump(actor_id, actor_d)
-        pickle.dump(movie_id, movie_d)
-
-
-def full_name(first_name, last_name):
-    if first_name is None:
-        name = last_name
-        return name
-    else:
-        name = (first_name + " " + last_name)
-        return name
-
-
 def unique_actor_movie(input):
     """
     Search through the input and generate two files: the name of unique actors and unique movies
@@ -106,4 +83,61 @@ def unique_actor_movie(input):
         pickle.dump(movies, output_movie)
 
     print("Done: Generated unique actors and unique movies")
+
+
+def filtered_csv(input):
+    """
+    produce a csv version of the tsv file and filtering out tv shows and character names
+    """
+
+    CSV_FILE = "{}.csv".format(input)
+
+    # pre-ready
+    filehandler.create(CSV_FILE)
+
+    print("Processing file... This may take a while.")
+
+    with open(input, mode='r') as file, open(CSV_FILE, mode='w') as output:
+        reader = csv.reader(file)
+
+        fieldnames = ['first_name', 'last_name', 'movie']
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for index, row in enumerate(reader):
+            clean_row = clean.clean(row)
+
+            if clean_row:
+                #writer.writerow(clean_row)
+                writer.writerow({'first_name': clean_row[1], 'last_name': clean_row[0],
+                'movie': clean_row[2]})
+
+            if index > 100000:  # remove these two lines if you want to run through the whole file
+                break
+
+
+def _generate_id(actors, movies):
+    """
+    Generate an id for the movies and actors
+    :param actors: set
+    :param movies: set
+    """
+    actor_id = {id: element for id, element in enumerate(actors)}
+    movie_id = {id: element for id, element in enumerate(movies)}
+
+    with open(ACTORS_DICT, mode='wb') as actor_d, open(MOVIE_DICT, mode='wb') as movie_d:
+        pickle.dump(actor_id, actor_d)
+        pickle.dump(movie_id, movie_d)
+
+
+def full_name(first_name, last_name):
+    if first_name is None:
+        name = last_name
+        return name
+    else:
+        name = (first_name + " " + last_name)
+        return name
+
+
+
 
