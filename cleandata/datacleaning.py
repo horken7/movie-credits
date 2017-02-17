@@ -31,5 +31,4 @@ def detailed_mapping():
     pass
 
 if __name__ == "__main__":
-    #main()
-    pass
+    main()
