@@ -1,5 +1,6 @@
 import pickle
 from collections import namedtuple
+import pprint
 
 Actor = namedtuple('Actor', ['name', 'extra'])
 filename = "movie_dict_lite.pkl"
@@ -11,9 +12,8 @@ with open(filename, "rb") as file, open(filename2, "rb") as file2:
 
 #print(data, "\n", "no. of unique {movie|actors?}",len(data))
 
-print(data)
-print()
-print(data2)
+pprint.pprint(data)
+#print(data2)
 
 
 
