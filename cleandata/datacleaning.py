@@ -1,5 +1,5 @@
 import pickle
-from cleandata.mc.utils import filehandler, generate
+from mc.utils import filehandler, generate
 
 TOTALMOVIES = 1042622
 #Actor = namedtuple('Actor', ['name', 'extra'])
@@ -12,7 +12,7 @@ OUTPUT = 'map_lite.pkl'
 if not filehandler.exist('movie2actor.pkl'):
     generate.actor_movie(INPUT)
 #generate.unique_actor_movie(INPUT)
-generate.filtered_csv(INPUT)
+#generate.filtered_csv(INPUT)
 
 
 def main():
