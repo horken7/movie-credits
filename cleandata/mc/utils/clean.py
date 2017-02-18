@@ -9,7 +9,14 @@ argument movie, expects a String
 return Boolean
 """
 
-non_movie = re.compile('".*"')  # pattern: "xxxx"
+"""
+patterns:
+\(.?V\) (TV) and (V)
+\[.*\] character name
+".*" TV show
+"""
+
+non_movie = re.compile('".*"|\(.?V\)')  # pattern: "xxxx"
 character_name = re.compile('\[.*\]', re.DOTALL)
 movie_year = re.compile('\(.*\)|\(\?*\)')
 
@@ -62,7 +69,7 @@ def clean(tv: List):
         if unwanted:  # skip line
             return
 
-        # remove [xxxx]
+        # remove [xxxx] (TV) (V)
         newline = character_name.sub("", item)
         string = newline.split('\t')
         newlist = remove_empty(string)

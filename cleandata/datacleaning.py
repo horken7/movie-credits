@@ -1,5 +1,5 @@
 import pickle
-from mc.utils import filehandler, generate
+from mc.utils import generate
 
 TOTALMOVIES = 1042622
 #Actor = namedtuple('Actor', ['name', 'extra'])
