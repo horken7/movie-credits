@@ -1,5 +1,4 @@
-### Running Andrew's Code (Works on Macs/Linux Only):
-**It will work on windows but I will need to make some fine adjustments...**
+### Running Andrew's Code works on Windows/Linux/MacOSX
 
 
 ### Getting a cleaned up version of the tsv in csv format.
