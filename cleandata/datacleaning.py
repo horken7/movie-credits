@@ -1,4 +1,3 @@
-import pickle
 from mc.utils import generate
 
 TOTALMOVIES = 1042622
@@ -6,18 +5,17 @@ TOTALMOVIES = 1042622
 
 # please change the the path
 INPUT = "2017-02-09_223251_ImdbParserOutput/actors.list.tsv"
-OUTPUT = 'map_lite.pkl'
 
 # generate desired files
 GENERATE = [
-    #'actor movie',
+    'top actors',
     #'unique actor movie',
     'filtered csv'
 ]
 
 make = generate.Generate(INPUT, stop=100000)
 
-options = {'actor movie': make.actor_movie,
+options = {'top actors': make.top_actors,
            'unique actor movie': make.unique_actor_movie,
            'filtered csv': make.filtered_csv
            }
@@ -25,11 +23,12 @@ for option in GENERATE:
     options.get(option)()
 
 
+"""
 def main():
-    """
+
     Create a numpy array from the movie2actor dictionary
     :return: numpy array
-    """
+
     with open('movie2actor.pkl', mode='rb') as file:
         movie2actors = pickle.load(file)
 
@@ -42,3 +41,5 @@ def detailed_mapping():
 
 if __name__ == "__main__":
     main()
+
+"""
