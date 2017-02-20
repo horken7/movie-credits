@@ -1,30 +1,23 @@
-### Running Andrew's Code (Works on Macs/Linux Only):
-**It will work on windows but I will need to make some fine adjustments...**
+### Running Andrew's Code works on Windows/Linux/MacOSX
 
-Inside `datacleaning.py`
+
+### Getting a cleaned up version of the tsv in csv format.
+Inside `cleandata/datacleaning.py`
 
     1. make sure to change the path to your tsv file:
 ```python
 filename = "2017-02-09_223251_ImdbParserOutput/actors.list.tsv" # please change this path to your own file path to the tsv file
 ```
+    2. Run it `python3 datacleaning.py` or `python datacleaning.py`
 
-    2. and comment out: 
-
-```python
-if index > 1000:  # remove these two lines if you want to run through the whole file
-    break
-```
-
-    3. Run it `python datacleaning.py`
+##### output
+your **actors.list.tsv.csv** will be located where the tsv file is. 
 
 ### Results
 
 no. of actors 2010940
 
 no. of movies 1042622
-
-
-
 
 # movie_credits
 Machine learning program to flag new credits

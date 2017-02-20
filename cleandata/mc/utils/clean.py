@@ -1,4 +1,3 @@
-# import requests
 from typing import List
 import re
 
@@ -9,14 +8,17 @@ argument movie, expects a String
 return Boolean
 """
 
-non_movie = re.compile('".*"')  # pattern: "xxxx"
+"""
+patterns:
+\(.?V\) (TV) and (V)
+\[.*\] character name
+".*" TV show
+"""
+
+non_movie = re.compile('".*"|\(.?V\)')  # pattern: "xxxx"
 character_name = re.compile('\[.*\]', re.DOTALL)
 movie_year = re.compile('\(.*\)|\(\?*\)')
 
-
-# r = requests.get('http://www.omdbapi.com/?t=Sofies+verden')
-# print(r.status_code)
-# print(r.json())
 
 def remove_empty(string):
     return [item for item in string if item]
@@ -30,7 +32,7 @@ def format(list):
     :return: List
     """
 
-    # detectng if the name contains a (year)
+    # detecting if the name contains a (year)
     first_name = list[1]
     is_movie = movie_year.search(first_name)
 
@@ -62,11 +64,12 @@ def clean(tv: List):
         if unwanted:  # skip line
             return
 
-        # remove [xxxx]
+        # remove [xxxx] (TV) (V)
         newline = character_name.sub("", item)
         string = newline.split('\t')
         newlist = remove_empty(string)
 
+        # TODO some lines are still a little strange. We must specify more conditions for the correct lines to pass
         # the list should at least contain (actor and movie)
         if len(newlist) > 2:
             return format(newlist)
