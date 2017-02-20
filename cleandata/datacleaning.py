@@ -10,7 +10,7 @@ INPUT = "2017-02-09_223251_ImdbParserOutput/actors.list.tsv"
 GENERATE = [
     'top actors',
     #'unique actor movie',
-    #'filtered csv'
+    'filtered csv'
 ]
 
 make = generate.Generate(INPUT, stop=100000)
