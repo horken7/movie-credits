@@ -2,7 +2,8 @@ import csv
 import json
 import pickle
 from collections import defaultdict
-from ..utils import clean, filehandler
+from mc.utils import clean, filehandler
+import itertools
 # import pprint
 
 
@@ -38,21 +39,15 @@ class Generate:
                 if clean_row:
                     movie = clean_row[2]
                     actor_name = full_name(clean_row[1], clean_row[0])
-
                     actor2movies[actor_name].add(movie)
-
 
                 if index > self.stop:  # remove these two lines if you want to run through the whole file
                     break
 
-        #with open(FILE1, mode='wb') as output1, open(FILE2, mode='wb') as output2:
-        #    pickle.dump(movie2actors, output1)
-        #    pickle.dump(actor2movies, output2)
-
         print("Done: Generated actor2movies")
         return actor2movies
 
-    def movie2actor(self):
+    def _movie2actor(self):
         """
         return a dictionary of movie: {actors}
         """
@@ -175,6 +170,8 @@ class Generate:
 
         print("Done: created topactors.json file.")
 
+
+
     def _generate_id(self, actors, movies):
         """
         Generate an id for the movies and actors
@@ -190,6 +187,26 @@ class Generate:
         with open(ACTORS_DICT, mode='wb') as actor_d, open(MOVIE_DICT, mode='wb') as movie_d:
             pickle.dump(actor_id, actor_d)
             pickle.dump(movie_id, movie_d)
+
+
+    def pair_actors(self):
+        """
+        :return: pair all possible actors
+        """
+        d = self._movie2actor()
+        for movie, actors in d.items():
+
+            # for valid combinations
+            if len(actors) >= 2:
+                print(movie, actors)
+
+                # use combinations to generate the index values
+                pairs = list(itertools.combinations([value for value in range(len(actors))], 2))
+
+                for pair in pairs:
+                    a,b = pair
+                    actors = list(actors)
+                    yield(actors[a], actors[b])
 
 
 def full_name(first_name, last_name):
