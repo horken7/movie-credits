@@ -24,6 +24,7 @@ options = {'top actors': make_file.top_actors,
 for option in GENERATE:
     options.get(option)()
 
+
 def detailed_mapping():
     # actor_dict[movie].append(Actor(full_name, extra=clean_row[3:])) # we can switch the movie / actor key here.
     pass

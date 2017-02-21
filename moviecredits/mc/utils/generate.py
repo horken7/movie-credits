@@ -2,7 +2,7 @@ import csv
 import json
 import pickle
 from collections import defaultdict
-from ..utils import clean, filehandler
+from mc.utils import clean, filehandler
 import itertools
 # import pprint
 
