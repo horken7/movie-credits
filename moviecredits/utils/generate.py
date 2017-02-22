@@ -3,8 +3,6 @@ import pickle
 from collections import defaultdict, namedtuple
 from itertools import product, zip_longest
 from typing import Set
-from sys import exit
-
 from moviecredits.utils import clean, filehandler
 
 
@@ -22,9 +20,8 @@ class Generate:
         file1 = 'unique_actors_lite.pkl'
         file2 = 'unique_movie_lite.pkl'
 
-        if not filehandler.exist(file1) or not filehandler.exist(file2):
-            # create required pkl files
-            self.unique_actor_movie()
+        # create required pkl files
+        self.unique_actor_movie()
 
         actor2movies = defaultdict(set)
         movie2actors = defaultdict(set)
@@ -36,30 +33,29 @@ class Generate:
         actors2id, id2actors = self._generate_id(a)
         movies2id, id2movies = self._generate_id(b)
 
-        print("Processing file... This may take a while.")
+        clean_csv = self.input + '.csv'
 
-        with open(self.input, mode='r', encoding='utf-8') as file:
+        with open(clean_csv, mode='r', encoding='utf-8') as file:
+            next(file) # skip first line
             reader = csv.reader(file)
 
             for index, row in enumerate(reader):
-                clean_row = clean.clean(row)
 
-                if clean_row:
-                    movie = clean_row[2]
-                    actor_name = full_name(clean_row[1], clean_row[0])
+                movie = row[2]
+                actor_name = full_name(row[1], row[0])
 
-                    # lookup id
-                    actor_name = actors2id.get(actor_name)
-                    movie = movies2id.get(movie)
+                # lookup id
+                actor_name = actors2id.get(actor_name)
+                movie = movies2id.get(movie)
 
-                    # populate with id equivalent
-                    actor2movies[actor_name].add(movie)
-                    movie2actors[movie].add(actor_name)
+                # populate with id equivalent
+                actor2movies[actor_name].add(movie)
+                movie2actors[movie].add(actor_name)
 
                 if index > self.stop:  # remove these two lines if you want to run through the whole file
                     break
 
-        print("Done: generating connections")
+        print("Done: generating connections {}", option)
 
         if option == 'actor2movies':
             return actor2movies
@@ -67,8 +63,6 @@ class Generate:
             return movie2actors
         elif option == "movie2actors with id2actors":
             return movie2actors, id2actors, id2movies
-
-
 
     def unique_actor_movie(self):
         """
@@ -85,25 +79,27 @@ class Generate:
         filehandler.create(ACTORS_FILE)
         filehandler.create(MOVIE_FILE)
 
+        clean_csv = self.input + '.csv'
+
+        # create required clean csv
+        self.filtered_csv()
+
         print("Processing file... This may take a while.")
 
-        with open(self.input, mode='r', encoding='utf-8') as file:
+        with open(clean_csv, mode='r', encoding='utf-8') as file:
+            next(file) #skip first line
             reader = csv.reader(file)
 
             for index, row in enumerate(reader):
-                clean_row = clean.clean(row)
 
-                if clean_row:
-                    movie = clean_row[2]
-                    actor_name = full_name(clean_row[1], clean_row[0])
+                movie = row[2]
+                actor_name = full_name(row[1], row[0])
 
-                    actors.add(actor_name)
-                    movies.add(movie)
+                actors.add(actor_name)
+                movies.add(movie)
 
                 if index > self.stop:  # remove these two lines if you want to run through the whole file
                     break
-
-        #_generate_id(actors, movies)
 
         with open(ACTORS_FILE, mode='wb') as output_actors, open(MOVIE_FILE, mode='wb') as output_movie:
             pickle.dump(actors, output_actors)

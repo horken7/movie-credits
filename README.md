@@ -11,6 +11,8 @@
 
 ### Results
 
+lines in the file 18435200
+
 no. of actors 2010940
 
 no. of movies 1042622
