@@ -16,7 +16,6 @@ make = generate.Generate(FILE_DIR, stop=100000)
 top_actors = make.top_actors()
 
 movie2actors, id2actors, id2movies = make._connection("movie2actors with id2actors")
-print(id2movies)
 
 # go through the movies
 for _, movies in top_actors.items():
