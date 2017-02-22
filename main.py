@@ -1,4 +1,4 @@
-import connections.connections
+import moviecredits.connections.connections
 
 def main():
     pass
