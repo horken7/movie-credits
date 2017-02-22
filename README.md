@@ -2,16 +2,12 @@
 
 
 ### Getting a cleaned up version of the tsv in csv format.
-Inside `moviecredits/datacleaning.py`
-
-    1. make sure to change the path to your tsv file, currently this is my path to my **tsv**:
-```python
-filename = "2017-02-09_223251_ImdbParserOutput/actors.list.tsv" # please change this path to your own file path to the tsv file
-```
-    2. go out of moviecredits (where the main.py is) and run `python3 main.py`
+1. Place your tsv file or directory in movie_credits.
+2.  In moviecredits folder (where the main.py is) run `python3 main.py`
 
 ##### output
-your **actors.list.tsv.csv** will be located where the tsv file is. 
+* your **actors.list.tsv.csv** will be located where the tsv file is. 
+* A pairing of `top ators` will be outputed
 
 ### Results
 
