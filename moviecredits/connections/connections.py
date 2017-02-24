@@ -14,14 +14,16 @@ def convert_to_movie_name(id):
 
 # TODO End goal to be able to see the connections like this. In order to create a adjacency matrix
 # TODO Currently at Generating the actor2actor, next use Counter.
-connect = namedtuple('Connection', ['ActorA', 'ActorB', 'Weight'])
+connection = namedtuple('Connection', ['actorA', 'actorB', 'weight'])
 
-class Link:
+class Map_Actors:
 
     def __init__(self, actor2movies: Dict, movie2actors: Dict):
         self.actor2movies = actor2movies
         self.movie2actors = movie2actors
         self._actor2actors = defaultdict(list)
+
+        self.actor2actors()
 
     def actor2actors(self):
 
@@ -38,10 +40,10 @@ class Link:
             # count the actors
             times_worked_together = Counter(merged_list)
 
-
             self._actor2actors[actor] = times_worked_together
 
-        print(self._actor2actors)
+    def item(self):
+        return self._actor2actors.items()
 
     def as_pairs(self):
         # go through the movies
@@ -86,10 +88,15 @@ make = generate.Generate(FILE_DIR, stop=100000)
 
 # actors:{movies}
 top_actors = make.top_actors()
-
 movie2actors, id2actors, id2movies = make._connection("movie2actors with id2actors")
 
-link = Link(top_actors, movie2actors)
+actor2actors = Map_Actors(top_actors, movie2actors)
 
-# pprint.pprint(link.actor2actors())
-link.actor2actors()
+for actor, colleagues in actor2actors.item():
+    for colleague, time_worked_together in colleagues.items():
+
+        # actor pairs with their corresponding weight.
+        print(actor, colleague, time_worked_together)
+
+
+
