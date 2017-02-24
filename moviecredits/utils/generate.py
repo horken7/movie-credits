@@ -1,6 +1,6 @@
 import csv
 import pickle
-from collections import defaultdict, namedtuple
+from collections import defaultdict
 from itertools import product, zip_longest
 from typing import Set
 from moviecredits.utils import clean, filehandler
@@ -12,6 +12,12 @@ class Generate:
         self.input = file
         self.stop = stop
 
+        # create required pkl files
+        self.unique_actor_movie()
+
+        # create required clean csv
+        self.filtered_csv()
+
     def _connection(self, option):
         """
         Make a dictionary of movie: {actors} and actor: {movies}
@@ -19,9 +25,6 @@ class Generate:
         """
         file1 = 'unique_actors_lite.pkl'
         file2 = 'unique_movie_lite.pkl'
-
-        # create required pkl files
-        self.unique_actor_movie()
 
         actor2movies = defaultdict(set)
         movie2actors = defaultdict(set)
@@ -55,7 +58,7 @@ class Generate:
                 if index > self.stop:  # remove these two lines if you want to run through the whole file
                     break
 
-        print("Done: generating connections {}", option)
+        print("Done: generating connections {}".format(option))
 
         if option == 'actor2movies':
             return actor2movies
@@ -80,9 +83,6 @@ class Generate:
         filehandler.create(MOVIE_FILE)
 
         clean_csv = self.input + '.csv'
-
-        # create required clean csv
-        self.filtered_csv()
 
         print("Processing file... This may take a while.")
 
@@ -140,8 +140,9 @@ class Generate:
 
     def top_actors(self):
         """Find the amount of movies completed for each actor and threshold to find the popular actors."""
-        print("finding top actors")
         a = self._connection("actor2movies")
+
+        print("Finding top actors")
 
         # find actors who was in more than 100 movies.
         top_actor = {actor: movies for actor, movies in a.items() if len(movies) > 70 and len(movies) < 80}

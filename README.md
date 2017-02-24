@@ -7,7 +7,7 @@
 
 ##### output
 * your **actors.list.tsv.csv** will be located where the tsv file is. 
-* A pairing of `top ators` will be outputed
+* A list of `top ators` with the number of times they worked with their colleagues.
 
 ### Results
 
