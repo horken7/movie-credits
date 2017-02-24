@@ -43,6 +43,24 @@ class Link:
 
         print(self._actor2actors)
 
+    def as_pairs(self):
+        # go through the movies
+        for _, movies in top_actors.items():
+            for movie in movies:
+
+                # convert to names
+                print("movieid: {} movie: {}, actorsid: {}, actors: {}".format(movie,
+                                                                               convert_to_movie_name(movie),
+                                                                               movie2actors.get(movie),
+                                                                               convert_to_actor_name(
+                                                                                   movie2actors.get(movie))))
+                # return actors
+                pairs = list(make.pair_actors(movie2actors.get(movie)))
+                if pairs:
+                    print(pairs)
+                else:
+                    print("skip, only one actor")
+
     def example(self):
 
         # go through the movies
@@ -75,4 +93,3 @@ link = Link(top_actors, movie2actors)
 
 # pprint.pprint(link.actor2actors())
 link.actor2actors()
-
