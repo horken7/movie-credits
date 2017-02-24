@@ -9,6 +9,42 @@
 * your **actors.list.tsv.csv** will be located where the tsv file is. 
 * A list of `top ators` with the number of times they worked with their colleagues.
 
+
+##### output Example
+```python
+actorA, actorB, weight
+7411 3626 1
+7411 7411 71
+7411 9826 3
+7411 7005 1
+2964 551 1
+2964 8713 1
+2964 4010 2
+2964 1847 1
+2964 172 1
+2964 7150 5
+2964 176 2
+2964 2641 2
+2964 2964 77
+2964 7093 1
+2964 6678 1
+2964 5719 2
+2964 5961 1
+1605 4992 1
+1605 1440 1
+1605 10259 1
+1605 1605 77
+1605 1991 1
+1605 10075 1
+1605 4917 1
+1605 9903 1
+281 5792 1
+281 281 76
+281 7340 1
+281 1784 2
+281 6569 1
+```
+
 ### Results
 
 lines in the file 18435200
