@@ -13,7 +13,6 @@ def convert_to_movie_name(id):
     return id2movies.get(id)
 
 # TODO End goal to be able to see the connections like this. In order to create a adjacency matrix
-# TODO Currently at Generating the actor2actor, next use Counter.
 connection = namedtuple('Connection', ['actorA', 'actorB', 'weight'])
 
 class Map_Actors:
@@ -44,6 +43,12 @@ class Map_Actors:
 
     def item(self):
         return self._actor2actors.items()
+
+    def __len__(self):
+        return len(self._actor2actors)
+
+    def __repr__(self):
+        return "<Map_actors actor2actors:%s >" % (self._actor2actors)
 
     def as_pairs(self):
         # go through the movies
@@ -92,11 +97,16 @@ movie2actors, id2actors, id2movies = make._connection("movie2actors with id2acto
 
 actor2actors = Map_Actors(top_actors, movie2actors)
 
+print("number of top actors:", len(actor2actors))
+print("what the array looks like: ", actor2actors)
+
 for actor, colleagues in actor2actors.item():
+    print("actor {} and no. of colleagues {}".format( actor,len(colleagues)))
     for colleague, time_worked_together in colleagues.items():
 
         # actor pairs with their corresponding weight.
         print(actor, colleague, time_worked_together)
+
 
 
 
