@@ -176,7 +176,7 @@ def matrix():
     connections = Matrix(top_actors, movie2actors)
     # the location of the values are changing because the list creation are extracted from unordered data structures.
     # the relative values themselves should not change
-    return connections.get_matrix
+    return connections.actors, connections.possible_colleagues, connections.get_matrix
 
 
 
