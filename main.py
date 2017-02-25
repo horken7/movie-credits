@@ -1,7 +1,12 @@
-import moviecredits.connections.connections
+import moviecredits.connections as connections
 
 def main():
-    pass
+    connections_matrix = connections.matrix()
+    print(connections_matrix)
+
+    # next... to output the past output examples to complement the matrix.
+
+
 
 
 
