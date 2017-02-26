@@ -40,7 +40,7 @@ class Generate:
 
         clean_csv = self.input + '.csv'
 
-        with open(clean_csv, mode='r', encoding='utf-8') as file:
+        with open(clean_csv, mode='r', encoding='ISO-8859-1') as file:
             next(file) # skip first line
             reader = csv.reader(file)
 
@@ -89,7 +89,7 @@ class Generate:
         print("Processing file... This may take a while.")
 
 
-        with open(clean_csv, mode='r', encoding='utf-8') as file:
+        with open(clean_csv, mode='r', encoding='ISO-8859-1') as file:
             next(file) #skip first line
             reader = csv.reader(file)
 
@@ -122,7 +122,7 @@ class Generate:
 
         print("Processing file... This may take a while.")
 
-        with open(self.input, mode='r', encoding='utf-8') as file, open(CSV_FILE, mode='w') as output:
+        with open(self.input, mode='r', encoding='ISO-8859-1') as file, open(CSV_FILE, mode='w', newline='', encoding='ISO-8859-1') as output:
             reader = csv.reader(file)
 
             fieldnames = ['first_name', 'last_name', 'movie']
