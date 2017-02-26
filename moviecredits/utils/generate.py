@@ -122,7 +122,7 @@ class Generate:
 
         print("Processing file... This may take a while.")
 
-        with open(self.input, mode='r', encoding='utf-8') as file, open(CSV_FILE, mode='w') as output:
+        with open(self.input, mode='r', encoding='utf-8') as file, open(CSV_FILE, mode='w', newline='') as output:
             reader = csv.reader(file)
 
             fieldnames = ['first_name', 'last_name', 'movie']
