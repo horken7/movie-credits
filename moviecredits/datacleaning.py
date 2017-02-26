@@ -16,4 +16,3 @@ TOTALMOVIES = 1042622
 #Actor = namedtuple('Actor', ['name', 'extra'])
 
 INPUT = find_tsv()
-
