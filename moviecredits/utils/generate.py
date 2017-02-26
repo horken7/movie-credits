@@ -12,11 +12,13 @@ class Generate:
         self.input = file
         self.stop = stop
 
+        # create required clean csv
+        self.filtered_csv()
+
         # create required pkl files
         self.unique_actor_movie()
 
-        # create required clean csv
-        self.filtered_csv()
+
 
     def _connection(self, option):
         """
@@ -78,13 +80,14 @@ class Generate:
         actors = set()
         movies = set()
 
-        # make sure file exist
+        # make sure files exist
         filehandler.create(ACTORS_FILE)
         filehandler.create(MOVIE_FILE)
 
         clean_csv = self.input + '.csv'
 
         print("Processing file... This may take a while.")
+
 
         with open(clean_csv, mode='r', encoding='utf-8') as file:
             next(file) #skip first line
