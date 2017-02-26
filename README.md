@@ -2,18 +2,72 @@
 
 
 ### Getting a cleaned up version of the tsv in csv format.
-Inside `cleandata/datacleaning.py`
-
-    1. make sure to change the path to your tsv file:
-```python
-filename = "2017-02-09_223251_ImdbParserOutput/actors.list.tsv" # please change this path to your own file path to the tsv file
-```
-    2. Run it `python3 datacleaning.py` or `python datacleaning.py`
+1. Place your tsv file or directory in movie_credits.
+2.  In moviecredits folder (where the main.py is) run `python3 main.py`
 
 ##### output
-your **actors.list.tsv.csv** will be located where the tsv file is. 
+* your **actors.list.tsv.csv** will be located where the tsv file is. 
+* A list of `top ators` with the number of times they worked with their colleagues. (in matrix form)
+
+
+##### output Example
+```python
+[[ 0  0  2  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  1  0]
+ [ 0  0  0  0  0  0  2  1  0]
+ [ 0  0  1  0  0  0  1  0  0]
+ [ 0  0  0  0  1  0  0  0  0]
+ [ 0  0  0  1  0  0  0  0  0]
+ [ 0  0  1  0  0  0  0  0  0]
+ [ 0  0  0  0 75  0  0  0  0]
+ [ 1  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0 71  0  0  0]
+ [ 0  0  5  0  0  0  0  0  0]
+ [ 0  1  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  1  0  0]
+ [ 0  0  0  0  0  0  1  0  0]
+ [ 0  0  0  0  1  0  0  0  0]
+ [ 0  0  0  0  0  0  1  0  0]
+ [ 0 77  0  0  0  0  0  0  0]
+ [ 0  0 77  0  0  0  2  0  0]
+ [ 0  0  0  0  0  0  0  1  0]
+ [ 2  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  1  0  0  0]
+ [ 0  0  2  0  0  0  1  0  0]
+ [ 0  0  0  2  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0 77  0]
+ [ 0  0  1  0  0  0  0  0  0]
+ [ 0  0  0  0  0  3  0  0  0]
+ [ 0  0  0  0  0  0  0  0  1]
+ [ 0  0  1  0  0  0  1  0  0]
+ [ 0  0  1  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  1  0]
+ [73  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  2  0  0]
+ [ 0  0  0 76  0  0  0  0  0]
+ [ 0  0  2  0  0  0 77  0  0]
+ [ 0  0  0  1  0  0  0  0  0]
+ [ 0  0  0  0  0  1  0  0  0]
+ [ 1  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0 76]
+ [ 0  0  0  0  0  0  0  1  0]
+ [ 0  0  0  0  0  0  0  1  0]
+ [ 0  0  0  0  0  0  1  0  0]
+ [ 0  0  0  0  1  0  0  0  0]
+ [ 0  0  2  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  1  0]
+ [ 0  0  0  0  0  0  0  0  2]
+ [ 0  0  1  0  0  0  0  0  0]
+ [ 0  0  0  0  1  0  0  0  0]
+ [ 0  1  0  1  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  1]
+ [ 0  0  1  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  3  0  0]]
+```
 
 ### Results
+
+lines in the file 18435200
 
 no. of actors 2010940
 
