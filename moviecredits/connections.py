@@ -123,6 +123,18 @@ class Matrix(Map_Actors):
         self.matrix = np.zeros((row, col), dtype=np.uint32)
         self._build_matrix()
 
+    @property
+    def get_matrix(self):
+        return self.matrix
+
+    @property
+    def get_movie2actors(self):
+        return self.movie2actors
+
+    @property
+    def get_actor2actors(self):
+        return self.actor2movies
+
     def _build_list(self):
         """
         Build an array for the top_actors (selected actors)
@@ -170,19 +182,6 @@ class Matrix(Map_Actors):
                 it[0] = 0
 
             it.iternext()
-
-    @property
-    def get_matrix(self):
-        return self.matrix
-
-
-    @property
-    def get_movie2actors(self):
-        return self.movie2actors
-
-    @property
-    def get_actor2actors(self):
-        return self.actor2movies
 
     def example(self):
         for actor, colleagues in super(Matrix, self).item():
