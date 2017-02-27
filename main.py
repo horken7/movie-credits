@@ -19,29 +19,5 @@ def main():
         print("colleague {} | actor {}".format(colleagues[colleagues_index[index]], actors[actor_index[index]]))
         print("weight %d "% connections_matrix[(colleagues_index[index], actor_index[index])])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
     main()

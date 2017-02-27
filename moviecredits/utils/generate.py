@@ -2,9 +2,17 @@ import csv
 import pickle
 from collections import defaultdict
 from itertools import product, zip_longest
-from typing import Set
+from typing import Set, Dict
 from moviecredits.utils import clean, filehandler
 
+
+def full_name(first_name, last_name):
+    if first_name is None:
+        name = last_name
+        return name
+    else:
+        name = (first_name + " " + last_name)
+        return name
 
 class Generate:
 
@@ -19,8 +27,47 @@ class Generate:
         self.unique_actor_movie()
 
 
+    def filtered_csv(self):
+        """
+        produce a csv version of the tsv file and filtering out tv shows and character names
+        """
 
-    def _connection(self, option):
+        CSV_FILE = "{}.csv".format(self.input)
+
+        # make sure file exist
+        filehandler.create(CSV_FILE)
+
+        print("Processing file... This may take a while.")
+
+        with open(self.input, mode='r', encoding='ISO-8859-1') as file, open(CSV_FILE, mode='w', newline='',
+                                                                             encoding='ISO-8859-1') as output:
+            reader = csv.reader(file)
+
+            fieldnames = ['first_name', 'last_name', 'movie']
+            writer = csv.DictWriter(output, fieldnames=fieldnames)
+            writer.writeheader()
+
+            for index, row in enumerate(reader):
+                clean_row = clean.clean(row)
+
+                if clean_row:
+                    writer.writerow({'first_name': clean_row[0], 'last_name': clean_row[1],
+                                     'movie': clean_row[2]})
+
+                if index > self.stop:  # remove these two lines if you want to run through the whole file
+                    break
+
+        print("Done: cleaned up tsv and made a csv")
+
+    def top_actors(self, actor2movies):
+        """Find the amount of movies completed for each actor and threshold to find the popular actors."""
+        print("Finding top actors")
+
+        # find actors who was in more than 100 movies.
+        top_actor = {actor: movies for actor, movies in actor2movies.items() if len(movies) > 70 and len(movies) < 80}
+        return top_actor
+
+    def connection(self):
         """
         Make a dictionary of movie: {actors} and actor: {movies}
         :return actor2movies and movie2actors
@@ -60,14 +107,9 @@ class Generate:
                 if index > self.stop:  # remove these two lines if you want to run through the whole file
                     break
 
-        print("Done: generating connections {}".format(option))
+        print("Done: generating connections")
 
-        if option == 'actor2movies':
-            return actor2movies
-        elif option == "movie2actors":
-            return movie2actors
-        elif option == "movie2actors with id2actors":
-            return movie2actors, id2actors, id2movies
+        return actor2movies, movie2actors, id2actors, id2movies
 
     def unique_actor_movie(self):
         """
@@ -110,46 +152,14 @@ class Generate:
 
         print("Done: Generated unique actors and unique movies")
 
-    def filtered_csv(self):
+    def _generate_id(self, items):
         """
-        produce a csv version of the tsv file and filtering out tv shows and character names
+        input: sequence or set
+        return a dictionary {items:id} and the inverse {id:items}
         """
-
-        CSV_FILE = "{}.csv".format(self.input)
-
-        # make sure file exist
-        filehandler.create(CSV_FILE)
-
-        print("Processing file... This may take a while.")
-
-        with open(self.input, mode='r', encoding='ISO-8859-1') as file, open(CSV_FILE, mode='w', newline='', encoding='ISO-8859-1') as output:
-            reader = csv.reader(file)
-
-            fieldnames = ['first_name', 'last_name', 'movie']
-            writer = csv.DictWriter(output, fieldnames=fieldnames)
-            writer.writeheader()
-
-            for index, row in enumerate(reader):
-                clean_row = clean.clean(row)
-
-                if clean_row:
-                    writer.writerow({'first_name': clean_row[0], 'last_name': clean_row[1],
-                    'movie': clean_row[2]})
-
-                if index > self.stop:  # remove these two lines if you want to run through the whole file
-                    break
-
-        print("Done: cleaned up tsv and made a csv")
-
-    def top_actors(self):
-        """Find the amount of movies completed for each actor and threshold to find the popular actors."""
-        a = self._connection("actor2movies")
-
-        print("Finding top actors")
-
-        # find actors who was in more than 100 movies.
-        top_actor = {actor: movies for actor, movies in a.items() if len(movies) > 70 and len(movies) < 80}
-        return top_actor
+        item2id = {item: id for id, item in enumerate(items)}
+        id2item = dict( zip_longest(item2id.values(), item2id.keys()) )
+        return item2id, id2item
 
     def pair_actors(self, cast: Set):
         """
@@ -166,21 +176,3 @@ class Generate:
             a,b = pair
             actors = list(cast)
             yield(actors[a], actors[b])
-
-    def _generate_id(self, items):
-        """
-        input: sequence or set
-        return a dictionary {items:id} and the inverse {id:items}
-        """
-        item2id = {item: id for id, item in enumerate(items)}
-        id2item = dict( zip_longest(item2id.values(), item2id.keys()) )
-        return item2id, id2item
-
-
-def full_name(first_name, last_name):
-    if first_name is None:
-        name = last_name
-        return name
-    else:
-        name = (first_name + " " + last_name)
-        return name
