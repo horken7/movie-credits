@@ -13,6 +13,16 @@ make = generate.Generate(FILE_DIR, stop=100000)
 top_actors = make.top_actors()
 movie2actors, id2actors, id2movies = make.connection("movie2actors with id2actors")
 
+def matrix():
+    connections = Matrix(top_actors, movie2actors)
+    # the location of the values are changing because the list creation are extracted from unordered data structures.
+    # the relative values themselves should not change
+
+    #print(connections.get_actor2actors)
+    #print(connections.get_movie2actors)
+
+    return connections.actors, connections.possible_colleagues, connections.get_matrix
+
 def convert_to_actor_name(ids: Set):
     return [id2actors.get(id) for id in list(ids)]
 
@@ -165,13 +175,6 @@ class Matrix(Map_Actors):
     def get_matrix(self):
         return self.matrix
 
-    def example(self):
-        for actor, colleagues in super(Matrix, self).item():
-            print("actor {} and no. of colleagues {}".format(actor, len(colleagues)))
-            for colleague, time_worked_together in colleagues.items():
-
-                 # actor pairs with their corresponding weight.
-                print(actor, colleague, time_worked_together)
 
     @property
     def get_movie2actors(self):
@@ -181,16 +184,10 @@ class Matrix(Map_Actors):
     def get_actor2actors(self):
         return self.actor2movies
 
+    def example(self):
+        for actor, colleagues in super(Matrix, self).item():
+            print("actor {} and no. of colleagues {}".format(actor, len(colleagues)))
+            for colleague, time_worked_together in colleagues.items():
 
-def matrix():
-    connections = Matrix(top_actors, movie2actors)
-    # the location of the values are changing because the list creation are extracted from unordered data structures.
-    # the relative values themselves should not change
-
-    #print(connections.get_actor2actors)
-    #print(connections.get_movie2actors)
-
-    return connections.actors, connections.possible_colleagues, connections.get_matrix
-
-
-
+                 # actor pairs with their corresponding weight.
+                print(actor, colleague, time_worked_together)

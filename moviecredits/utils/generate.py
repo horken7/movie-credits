@@ -6,6 +6,14 @@ from typing import Set
 from moviecredits.utils import clean, filehandler
 
 
+def full_name(first_name, last_name):
+    if first_name is None:
+        name = last_name
+        return name
+    else:
+        name = (first_name + " " + last_name)
+        return name
+
 class Generate:
 
     def __init__(self, file, stop=1000):
@@ -176,12 +184,3 @@ class Generate:
             a,b = pair
             actors = list(cast)
             yield(actors[a], actors[b])
-
-
-def full_name(first_name, last_name):
-    if first_name is None:
-        name = last_name
-        return name
-    else:
-        name = (first_name + " " + last_name)
-        return name
