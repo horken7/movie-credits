@@ -5,13 +5,11 @@ from collections import Counter, defaultdict
 import itertools
 import array
 import numpy as np
-import pprint
 
 
 make = generate.Generate(FILE_DIR, stop=100000)
-# actors:{movies}
-top_actors = make.top_actors()
-movie2actors, id2actors, id2movies = make.connection("movie2actors with id2actors")
+actor2movies, movie2actors, id2actors, id2movies = make.connection()
+top_actors = make.top_actors(actor2movies)
 
 def matrix():
     connections = Matrix(top_actors, movie2actors)

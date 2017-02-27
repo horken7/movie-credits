@@ -2,7 +2,7 @@ import csv
 import pickle
 from collections import defaultdict
 from itertools import product, zip_longest
-from typing import Set
+from typing import Set, Dict
 from moviecredits.utils import clean, filehandler
 
 
@@ -59,18 +59,15 @@ class Generate:
 
         print("Done: cleaned up tsv and made a csv")
 
-    def top_actors(self):
+    def top_actors(self, actor2movies):
         """Find the amount of movies completed for each actor and threshold to find the popular actors."""
-        a = self.connection("actor2movies")
-
         print("Finding top actors")
 
         # find actors who was in more than 100 movies.
-        top_actor = {actor: movies for actor, movies in a.items() if len(movies) > 70 and len(movies) < 80}
+        top_actor = {actor: movies for actor, movies in actor2movies.items() if len(movies) > 70 and len(movies) < 80}
         return top_actor
 
-
-    def connection(self, option):
+    def connection(self):
         """
         Make a dictionary of movie: {actors} and actor: {movies}
         :return actor2movies and movie2actors
@@ -110,14 +107,9 @@ class Generate:
                 if index > self.stop:  # remove these two lines if you want to run through the whole file
                     break
 
-        print("Done: generating connections {}".format(option))
+        print("Done: generating connections")
 
-        if option == 'actor2movies':
-            return actor2movies
-        elif option == "movie2actors":
-            return movie2actors
-        elif option == "movie2actors with id2actors":
-            return movie2actors, id2actors, id2movies
+        return actor2movies, movie2actors, id2actors, id2movies
 
     def unique_actor_movie(self):
         """
