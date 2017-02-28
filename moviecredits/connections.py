@@ -1,12 +1,12 @@
 from moviecredits.datacleaning import INPUT as FILE_DIR
 from moviecredits.utils import generate
 from typing import Set, Dict
-from collections import Counter, defaultdict
+from collections import Counter, defaultdict, namedtuple
 import itertools
 import array
 import numpy as np
 
-
+actor_pair = namedtuple('Actor_Pair', ['pair', 'weight'])
 make = generate.Generate(FILE_DIR, stop=100000)
 actor2movies, movie2actors, id2actors, id2movies = make.connection()
 top_actors = make.top_actors(actor2movies)
@@ -20,6 +20,10 @@ def matrix():
     #print(connections.get_movie2actors)
 
     return connections.actors, connections.possible_colleagues, connections.get_matrix
+
+def adj_matrix():
+    connections = Matrix(top_actors, movie2actors)
+    return connections.get_adj_matrix, connections.get_adj_edges
 
 def convert_to_actor_name(ids: Set):
     return [id2actors.get(id) for id in list(ids)]
@@ -113,17 +117,25 @@ class Matrix(Map_Actors):
         self.actors = set()
         self.possible_colleagues = set()
 
-        self._build_list()
+        # build a top actor to colleagues matrix
+        self._matrix = self._build_matrix()
 
-        # initialise matrix
-        row = len(self.possible_colleagues)
-        col = len(self.actors)
-        self.matrix = np.zeros((row, col), dtype=np.uint32)
-        self._build_matrix()
+        # build adjacency matrix
+        self._adj_edges = defaultdict(list)
+        self._adj_matrix = self._build_adjacency_matrix()
+
 
     @property
     def get_matrix(self):
-        return self.matrix
+        return self._matrix
+
+    @property
+    def get_adj_matrix(self):
+        return self._adj_matrix
+
+    @property
+    def get_adj_edges(self):
+        return self._adj_edges
 
     @property
     def get_movie2actors(self):
@@ -159,8 +171,16 @@ class Matrix(Map_Actors):
         it[0] - a feature that allows us to write values to the numpy array while iterating through the array.
         """
 
+        # build possible_colleagues and actors set for rows and cols
+        self._build_list()
+
+        # initialise actor against colleagues matrix
+        row = len(self.possible_colleagues)
+        col = len(self.actors)
+        tmp_matrix = np.zeros((row, col), dtype=np.uint32)
+
         # iterate through matrix
-        it = np.nditer(self.matrix, flags=['multi_index'], op_flags=['readwrite'])
+        it = np.nditer(tmp_matrix, flags=['multi_index'], op_flags=['readwrite'])
         while not it.finished:
 
             # index position
@@ -172,7 +192,7 @@ class Matrix(Map_Actors):
             a = self._actor2actors.get(actor)
             weight = a.get(possible_colleague)
 
-            # Assign the weights
+            # Assign the weight
             if weight is not None:
                 it[0] = weight
             else:
@@ -180,6 +200,52 @@ class Matrix(Map_Actors):
                 it[0] = 0
 
             it.iternext()
+
+        return tmp_matrix
+
+
+    def _build_adjacency_matrix(self):
+        """
+        Generate a top actors against top actors matrix.
+        Note: multi index corresponds to the cartesian product pairs
+        and iterating through the matrix matches the cartesian product sequence.
+        :return:adj_matrix
+        """
+
+        tmp_edges = []
+
+        for edge in self._cartesian_pairs():
+            tmp_edges.append(edge)
+
+        # initialise the matrix
+        size = len(list(self.actor2movies.keys()))
+        tmp_matrix = np.zeros((size, size), dtype=np.uint32)
+
+        # iterate through matrix
+        it = np.nditer(tmp_matrix, flags=['multi_index'], op_flags=['readwrite'], order='K')
+        while not it.finished:
+            # Assign the weight
+            it[0] = tmp_edges[it.iterindex].weight
+
+            # save the index with the actor_pairs
+            self._adj_edges[it.multi_index] = tmp_edges[it.iterindex]
+            it.iternext()
+        return tmp_matrix
+
+    def _cartesian_pairs(self):
+        "Calculate the cartesian pairs and work out the number of movies they worked together (weight)"
+
+        # generate the cartesian product for the top actors
+        actors = list(self.actor2movies.keys())
+        product = itertools.product(actors, repeat=2)
+
+        # look up their movies and find the intersection
+        for pair in product:
+            actorA, actorB = pair
+            a = self.actor2movies.get(actorA)
+            b = self.actor2movies.get(actorB)
+            weight = len(a.intersection(b))
+            yield actor_pair(pair, weight)
 
     def example(self):
         for actor, colleagues in super(Matrix, self).item():
