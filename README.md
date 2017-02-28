@@ -18,51 +18,7 @@
  [ 0  0  1  0  0  0  1  0  0]
  [ 0  0  0  0  1  0  0  0  0]
  [ 0  0  0  1  0  0  0  0  0]
- [ 0  0  1  0  0  0  0  0  0]
- [ 0  0  0  0 75  0  0  0  0]
- [ 1  0  0  0  0  0  0  0  0]
- [ 0  0  0  0  0 71  0  0  0]
- [ 0  0  5  0  0  0  0  0  0]
- [ 0  1  0  0  0  0  0  0  0]
- [ 0  0  0  0  0  0  1  0  0]
- [ 0  0  0  0  0  0  1  0  0]
- [ 0  0  0  0  1  0  0  0  0]
- [ 0  0  0  0  0  0  1  0  0]
- [ 0 77  0  0  0  0  0  0  0]
- [ 0  0 77  0  0  0  2  0  0]
- [ 0  0  0  0  0  0  0  1  0]
- [ 2  0  0  0  0  0  0  0  0]
- [ 0  0  0  0  0  1  0  0  0]
- [ 0  0  2  0  0  0  1  0  0]
- [ 0  0  0  2  0  0  0  0  0]
- [ 0  0  0  0  0  0  0 77  0]
- [ 0  0  1  0  0  0  0  0  0]
- [ 0  0  0  0  0  3  0  0  0]
- [ 0  0  0  0  0  0  0  0  1]
- [ 0  0  1  0  0  0  1  0  0]
- [ 0  0  1  0  0  0  0  0  0]
- [ 0  0  0  0  0  0  0  1  0]
- [73  0  0  0  0  0  0  0  0]
- [ 0  0  0  0  0  0  2  0  0]
- [ 0  0  0 76  0  0  0  0  0]
- [ 0  0  2  0  0  0 77  0  0]
- [ 0  0  0  1  0  0  0  0  0]
- [ 0  0  0  0  0  1  0  0  0]
- [ 1  0  0  0  0  0  0  0  0]
- [ 0  0  0  0  0  0  0  0 76]
- [ 0  0  0  0  0  0  0  1  0]
- [ 0  0  0  0  0  0  0  1  0]
- [ 0  0  0  0  0  0  1  0  0]
- [ 0  0  0  0  1  0  0  0  0]
- [ 0  0  2  0  0  0  0  0  0]
- [ 0  0  0  0  0  0  0  1  0]
- [ 0  0  0  0  0  0  0  0  2]
- [ 0  0  1  0  0  0  0  0  0]
- [ 0  0  0  0  1  0  0  0  0]
- [ 0  1  0  1  0  0  0  0  0]
- [ 0  0  0  0  0  0  0  0  1]
- [ 0  0  1  0  0  0  0  0  0]
- [ 0  0  0  0  0  0  3  0  0]]
+ [ 0  0  1  0  0  0  0  0  0]]
 ```
 
 ### Results
@@ -72,6 +28,17 @@ lines in the file 18435200
 no. of actors 2010940
 
 no. of movies 1042622
+
+
+### Code flow (if you want to understand the code)
+1. `generate.py` 
+    * create a clean csv with `self.filtered_csv`
+    * make unique actors and unique movies with `self.unique_actor_movie`
+    * make a mapping of actors to movies and movies to actors with `self.connection` (in id form)
+2. `connection.py`
+    * create map actors to actors in related movies (including the weighting) with `self.actor2actors`
+    * Build matrix from actors2actors `self._build_matrix`
+    * Build an adj matrix `self._build_adjacency_matrix`
 
 # movie_credits
 Machine learning program to flag new credits

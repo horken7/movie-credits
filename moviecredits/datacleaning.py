@@ -1,4 +1,4 @@
-from moviecredits.utils import generate
+from moviecredits.utils import generate_subset
 import os
 
 def find_tsv():
