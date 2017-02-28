@@ -38,6 +38,7 @@ no. of movies 1042622
 2. `connection.py`
     * create map actors to actors in related movies (including the weighting) with `self.actor2actors`
     * Build matrix from actors2actors `self._build_matrix`
+    * Build an adj matrix `self._build_adjacency_matrix`
 
 # movie_credits
 Machine learning program to flag new credits
