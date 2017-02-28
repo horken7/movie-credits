@@ -9,9 +9,9 @@ import csv
 
 
 def main():
-    adj_matrix, edges = connections.adj_matrix()
+    actors, colleagues, connections_matrix = connections.matrix()
+    print(connections_matrix)
 
-    print(adj_matrix)
     # # next... to output the previous output examples to complement the matrix.
 
     # # the index position represents the index in the array.
