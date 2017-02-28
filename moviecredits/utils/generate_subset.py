@@ -54,7 +54,7 @@ class Generate:
                     writer.writerow({'first_name': clean_row[0], 'last_name': clean_row[1],
                                      'movie': clean_row[2]})
 
-                if index > self.stop:  # remove these two lines if you want to run through the whole file
+                if index > self.stop:
                     break
 
         print("Done: cleaned up tsv and made a csv")
@@ -104,7 +104,7 @@ class Generate:
                 actor2movies[actor_name].add(movie)
                 movie2actors[movie].add(actor_name)
 
-                if index > self.stop:  # remove these two lines if you want to run through the whole file
+                if index > self.stop:
                     break
 
         print("Done: generating connections")
@@ -143,7 +143,7 @@ class Generate:
                 actors.add(actor_name)
                 movies.add(movie)
 
-                if index > self.stop:  # remove these two lines if you want to run through the whole file
+                if index > self.stop:
                     break
 
         with open(ACTORS_FILE, mode='wb') as output_actors, open(MOVIE_FILE, mode='wb') as output_movie:

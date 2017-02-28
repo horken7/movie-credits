@@ -1,5 +1,6 @@
 from moviecredits.datacleaning import INPUT as FILE_DIR
-from moviecredits.utils import generate
+from moviecredits.utils import generate_subset
+from moviecredits.utils import generate_all
 from typing import Set, Dict
 from collections import Counter, defaultdict, namedtuple
 import itertools
@@ -7,7 +8,8 @@ import array
 import numpy as np
 
 actor_pair = namedtuple('Actor_Pair', ['pair', 'weight'])
-make = generate.Generate(FILE_DIR, stop=100000)
+make = generate_subset.Generate(FILE_DIR, stop=100000)
+# make = generate_all.Generate(FILE_DIR)
 actor2movies, movie2actors, id2actors, id2movies = make.connection()
 top_actors = make.top_actors(actor2movies)
 
