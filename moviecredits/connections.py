@@ -9,7 +9,7 @@ import numpy as np
 
 actor_pair = namedtuple('Actor_Pair', ['pair', 'weight'])
 make = generate_subset.Generate(FILE_DIR, stop=100000)
-# make = generate_all.Generate(FILE_DIR)
+#make = generate_all.Generate(FILE_DIR)
 actor2movies, movie2actors, id2actors, id2movies = make.connection()
 top_actors = make.top_actors(actor2movies)
 

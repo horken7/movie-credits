@@ -2,9 +2,10 @@ import moviecredits.connections as connections
 import network.heatmap as hm
 import network.geometricgraph as gg
 import numpy as np
-
 import sys
 import csv
+from tempfile import TemporaryFile
+
 
 
 
@@ -29,17 +30,16 @@ def main():
 
     adj_matrix, edges = connections.adj_matrix()
 
-    print(adj_matrix)
+    # with open("adj.npy", "wb") as outfile:
+    #     np.save(outfile, adj_matrix)
+    
+    # hm.plot_heatmap(adj_matrix)
+    #gg.make_geometric_graph(adj_matrix)
 
-    hm.plot_heatmap(adj_matrix)
-    # gg.make_geometric_graph(adj_matrix)
-
-    with open('actors_colleagues.csv','w+') as csvfile:
-        comma_out = csv.writer(csvfile, dialect=csv.excel)
-        for row in adj_matrix:
-            comma_out.writerow(row)
-
-
+    # with open('actors_colleagues.csv','w+') as csvfile:
+    #     comma_out = csv.writer(csvfile, dialect=csv.excel)
+    #     for row in adj_matrix:
+    #         comma_out.writerow(row)
 
 if __name__ == '__main__':
     main()

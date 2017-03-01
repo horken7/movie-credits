@@ -1,7 +1,7 @@
 %N = csvread('actors_colleagues.csv',0,0);
 
 %M=N;
-G=graph(N);
+G=gr    aph(N);
 plot(G,'EdgeLabel',G.Edges.Weight)
 %[dist, path, pred] = graphshortestpath(G, S, T)
 figure(2)
