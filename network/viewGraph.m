@@ -1,14 +1,17 @@
-M = csvread('actors_colleagues.csv',0,0);
-sz=size(M);
+%N = csvread('actors_colleagues.csv',0,0);
+
+%M=N;
+G=graph(N);
+plot(G,'EdgeLabel',G.Edges.Weight)
+%[dist, path, pred] = graphshortestpath(G, S, T)
+figure(2)
 G=graph;
-for i=1:sz(1)
-    for j=1:sz(2)
-        if(M(i,j)>0)
-            G = addedge(G,i,j,M(i,j));
+for j=2:size(M,1)
+    for i=2:size(M,2)
+        if(M(j,i)>0)
+            G=addedge(G,M(j,1),M(1,i),M(j,i))
         end
     end
 end
-%G=graph(ones(4) - diag([1 1 1 1]))
-
+    
 plot(G,'EdgeLabel',G.Edges.Weight)
-
