@@ -12,13 +12,11 @@ class Generate:
         self.input = file
         self.stop = stop
 
-        # create required clean csv
-        self.filtered_csv()
-
         # create required pkl files
         self.unique_actor_movie()
 
-
+        # create required clean csv
+        self.filtered_csv()
 
     def _connection(self, option):
         """
@@ -40,7 +38,7 @@ class Generate:
 
         clean_csv = self.input + '.csv'
 
-        with open(clean_csv, mode='r', encoding='ISO-8859-1') as file:
+        with open(clean_csv, mode='r', encoding='utf-8') as file:
             next(file) # skip first line
             reader = csv.reader(file)
 
@@ -80,7 +78,7 @@ class Generate:
         actors = set()
         movies = set()
 
-        # make sure files exist
+        # make sure file exist
         filehandler.create(ACTORS_FILE)
         filehandler.create(MOVIE_FILE)
 
@@ -88,8 +86,7 @@ class Generate:
 
         print("Processing file... This may take a while.")
 
-
-        with open(clean_csv, mode='r', encoding='ISO-8859-1') as file:
+        with open(clean_csv, mode='r', encoding='utf-8') as file:
             next(file) #skip first line
             reader = csv.reader(file)
 
@@ -122,7 +119,7 @@ class Generate:
 
         print("Processing file... This may take a while.")
 
-        with open(self.input, mode='r', encoding='ISO-8859-1') as file, open(CSV_FILE, mode='w', newline='', encoding='ISO-8859-1') as output:
+        with open(self.input, mode='r', encoding='utf-8') as file, open(CSV_FILE, mode='w') as output:
             reader = csv.reader(file)
 
             fieldnames = ['first_name', 'last_name', 'movie']
