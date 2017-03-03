@@ -1,12 +1,11 @@
-import moviecredits.connections as connections
-import network.heatmap as hm
-import network.geometricgraph as gg
-import numpy as np
-import sys
-import csv
-from tempfile import TemporaryFile
-
-
+# import moviecredits.connections as connections
+# import network.heatmap as hm
+import network.makegraph as gg
+# import numpy as np
+# import sys
+# import csv
+# from tempfile import TemporaryFile
+import pickle
 
 
 def main():
@@ -30,12 +29,31 @@ def main():
 
     adj_matrix, edges = connections.adj_matrix()
 
-    # with open("adj.npy", "wb") as outfile:
-    #     np.save(outfile, adj_matrix)
-    
-    # hm.plot_heatmap(adj_matrix)
-    #gg.make_geometric_graph(adj_matrix)
+    # put zeros on the diagonal to make adjacency matrix
+    for i in range(0,len(adj_matrix)):
+        adj_matrix[i][i] = 0
+    print(adj_matrix)
 
+    # save to pickle format
+    # pickle.dump(adj_matrix,open( "adjacency_matrix.pkl", "wb"))
+
+    # open pickle file
+    # if you want to use the pickled file without having to run the entire program
+    # remember to comment out the import files
+    # adj_matrix = pickle.load(open("adjacency_matrix.pkl", "rb"))
+
+    # run heatmap function
+    # hm.plot_heatmap(adj_matrix)
+
+    # run the make graph function
+    # temp data:
+    # colleagues = [10,20,30,40,50]
+    # actor = 100
+    # mapping = [10,100,20,30,40,50]
+    # threshold = 5
+    # flag = gg.make_graph(adj_matrix,colleagues,actor,mapping,threshold)
+
+    # save to csv
     # with open('actors_colleagues.csv','w+') as csvfile:
     #     comma_out = csv.writer(csvfile, dialect=csv.excel)
     #     for row in adj_matrix:
