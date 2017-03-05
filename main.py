@@ -1,4 +1,4 @@
-# import moviecredits.connections as connections
+import moviecredits.connections as connections
 # import network.heatmap as hm
 import network.makegraph as gg
 # import numpy as np
@@ -34,24 +34,33 @@ def main():
         adj_matrix[i][i] = 0
     print(adj_matrix)
 
+
     # save to pickle format
-    # pickle.dump(adj_matrix,open( "adjacency_matrix.pkl", "wb"))
+    pickle.dump(adj_matrix,open( "adjacency_matrix.pkl", "wb"))
 
     # open pickle file
     # if you want to use the pickled file without having to run the entire program
     # remember to comment out the import files
     # adj_matrix = pickle.load(open("adjacency_matrix.pkl", "rb"))
+    # edges = pickle.load(open("edges.pkl", "rb"))
+    # for index, info in edges.items():
+    #         print(index, info.pair, info.weight)
 
     # run heatmap function
     # hm.plot_heatmap(adj_matrix)
 
     # run the make graph function
-    # temp data:
-    # colleagues = [10,20,30,40,50]
-    # actor = 100
-    # mapping = [10,100,20,30,40,50]
-    # threshold = 5
-    # flag = gg.make_graph(adj_matrix,colleagues,actor,mapping,threshold)
+    # with temp data:
+    colleagues = [402992,115624,379731,41344,135259]
+    actor = 88316
+    threshold = 2
+    debug = True # if true will plot each path
+    flag = gg.make_graph(edges,colleagues,actor,threshold,debug) #removed 'edges' while pickled graph
+
+    if(flag == True):
+        print('Input is flagged, please check')
+    else:
+        print('Input passed test, no flags raised')
 
     # save to csv
     # with open('actors_colleagues.csv','w+') as csvfile:
