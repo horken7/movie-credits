@@ -1,5 +1,4 @@
 function [ r ] = PageRank( )
-
 clc;
 clear;
 
