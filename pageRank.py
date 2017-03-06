@@ -1,4 +1,4 @@
-# import main
+import main
 import operator
 import math, random, sys, csv 
 from utils import parse, print_results
@@ -40,26 +40,26 @@ class PageRank:
 
         return p
 
-# if __name__ == '__main__':
-#     if len(sys.argv) == 1:
-#         print('Expected input format: python pageRank.py <data_filename> <directed OR undirected>')
-#     else:
-#         filename = sys.argv[1]
-#         isDirected = False
-#         if sys.argv[2] == 'directed':
-#             isDirected = True
+if __name__ == '__main__':
+    if len(sys.argv) == 1:
+        print('Expected input format: python pageRank.py <data_filename> <directed OR undirected>')
+    else:
+        filename = sys.argv[1]
+        isDirected = False
+        if sys.argv[2] == 'directed':
+            isDirected = True
 
-#         graph = parse(filename, isDirected)
-#         p = PageRank(graph, isDirected)
-#         p.rank()
+        graph = parse(filename, isDirected)
+        p = PageRank(graph, isDirected)
+        p.rank()
 
-#         sorted_r = sorted(p.ranks.iteritems(), key=operator.itemgetter(1), reverse=True)
+        sorted_r = sorted(p.ranks.iteritems(), key=operator.itemgetter(1), reverse=True)
 
-#         for tup in sorted_r:
-#             print('{0:30} :{1:10}'.format(str(tup[0]), tup[1]))
+        for tup in sorted_r:
+            print('{0:30} :{1:10}'.format(str(tup[0]), tup[1]))
 
- #       for node in graph.nodes():
- #          print node + rank(graph, node)
+       for node in graph.nodes():
+          print node + rank(graph, node)
 
             #neighbs = graph.neighbors(node)
             #print node + " " + str(neighbs)
