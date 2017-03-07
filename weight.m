@@ -46,8 +46,7 @@ for val = 1:length(actors)
         
     for ii = oldC:counter
         indiv = zeros(l,3);
-        sepA = [eq(1), colleagueCol(ii), weightCol(ii)];
-        sepA = [sepA ii+rand];
+        sepA = [eq(1), colleagueCol(ii), weightCol(ii)]
         for iii = 1:l
             mat = indiv(iii,:) + sepA;
             indiv(iii,:) = sepA;
