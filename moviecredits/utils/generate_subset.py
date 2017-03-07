@@ -4,13 +4,14 @@ from collections import defaultdict
 from itertools import product, zip_longest
 from typing import Set, Dict
 from moviecredits.utils import clean, filehandler
+import os
 
 
 class Generate:
 
-    def __init__(self, file, stop=1000):
-        self.root, self.input = file
-        print(self.root)
+    def __init__(self, root, file, stop=1000):
+        self.input = file
+        self.root = root
         self.stop = stop
 
         # create required clean csv
@@ -65,8 +66,8 @@ class Generate:
         Make a dictionary of movie: {actors} and actor: {movies}
         :return actor2movies, movie2actors, id2actors, id2movies, movies2id, actors2id
         """
-        file1 = 'unique_actors_lite.pkl'
-        file2 = 'unique_movie_lite.pkl'
+        file1 = os.path.join(self.root, 'unique_actors.pkl')
+        file2 = os.path.join(self.root, 'unique_movies.pkl')
 
         actor2movies = defaultdict(set)
         movie2actors = defaultdict(set)
@@ -102,15 +103,15 @@ class Generate:
 
         print("Done: generating connections")
 
-        return actor2movies, movie2actors, id2actors, id2movies, movies2id, actors2id
+        return actor2movies, movie2actors, id2actors, id2movies, actors2id, movies2id
 
     def unique_actor_movie(self):
         """
         Search through the input and generate two files: the name of unique actors and unique movies
         """
 
-        ACTORS_FILE = "unique_actors_lite.pkl"
-        MOVIE_FILE = "unique_movie_lite.pkl"
+        ACTORS_FILE = os.path.join(self.root, "unique_actors.pkl")
+        MOVIE_FILE = os.path.join(self.root, "unique_movies.pkl")
 
         actors = set()
         movies = set()
@@ -169,3 +170,5 @@ class Generate:
             a,b = pair
             actors = list(cast)
             yield(actors[a], actors[b])
+
+
