@@ -6,6 +6,7 @@
 *.list
 *.json
 *.pdf
+*.mat
 
 #cache
 __pycache__/*
