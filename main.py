@@ -1,17 +1,10 @@
-from moviecredits.datacleaning import INPUT as FILE_DIR
-from moviecredits.utils import generate_subset
-from moviecredits.utils import generate_all
+import pickle
 import moviecredits.connections as connections
 import moviecredits.lookup as lookup
-# import network.heatmap as hm
 import moviecredits.network.makegraph as gg
-import pickle
 
-make = generate_subset.Generate(FILE_DIR, stop=100000)
-# make = generate_all.Generate(FILE_DIR)
-actor2movies, movie2actors, id2actors, id2movies, movies2id, actors2id = make.connection()
-top_actors = make.top_actors(actor2movies)
 
+# read in all the pickle files.
 
 def main():
     """
@@ -33,7 +26,7 @@ def main():
 
     find = lookup.Lookup(id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors)
     casts = find.movie_cast('bound')
-    actors = find.actor('ahmad')
+    actors = find.actor('ahmed')
 
     # actors, colleagues, connections_matrix = connections.matrix(top_actors, movie2actors)
     adj_matrix, edges = connections.adj_matrix(top_actors, movie2actors)

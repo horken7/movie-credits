@@ -4,13 +4,13 @@ from collections import defaultdict
 from itertools import product, zip_longest
 from typing import Set, Dict
 from moviecredits.utils import clean, filehandler
-import unicodedata
 
 
 class Generate:
 
     def __init__(self, file, stop=1000):
-        self.input = file
+        self.root, self.input = file
+        print(self.root)
         self.stop = stop
 
         # create required clean csv

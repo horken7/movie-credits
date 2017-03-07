@@ -6,18 +6,11 @@ from typing import Set, Dict
 from moviecredits.utils import clean, filehandler
 
 
-def full_name(first_name, last_name):
-    if first_name is None:
-        name = last_name
-        return name
-    else:
-        name = (first_name + " " + last_name)
-        return name
-
 class Generate:
 
-    def __init__(self, file):
+    def __init__(self, file, stop=1000):
         self.input = file
+        self.stop = stop
 
         # create required clean csv
         self.filtered_csv()
@@ -42,16 +35,17 @@ class Generate:
                                                                              encoding='ISO-8859-1') as output:
             reader = csv.reader(file)
 
-            fieldnames = ['first_name', 'last_name', 'movie']
+            fieldnames = ['name', 'movie']
             writer = csv.DictWriter(output, fieldnames=fieldnames)
             writer.writeheader()
 
             for index, row in enumerate(reader):
                 clean_row = clean.clean(row)
 
-                if clean_row:
-                    writer.writerow({'first_name': clean_row[0], 'last_name': clean_row[1],
-                                     'movie': clean_row[2]})
+                if (clean_row):
+                    movie, actor_name = clean.unicode_normalise_movies_actors(clean_row)
+                    writer.writerow({'name': actor_name, 'movie': movie})
+
 
         print("Done: cleaned up tsv and made a csv")
 
@@ -66,7 +60,7 @@ class Generate:
     def connection(self):
         """
         Make a dictionary of movie: {actors} and actor: {movies}
-        :return actor2movies and movie2actors
+        :return actor2movies, movie2actors, id2actors, id2movies, movies2id, actors2id
         """
         file1 = 'unique_actors_lite.pkl'
         file2 = 'unique_movie_lite.pkl'
@@ -89,8 +83,8 @@ class Generate:
 
             for index, row in enumerate(reader):
 
-                movie = row[2]
-                actor_name = full_name(row[1], row[0])
+                movie = row[1]
+                actor_name = row[0]
 
                 # lookup id
                 actor_name = actors2id.get(actor_name)
@@ -130,11 +124,14 @@ class Generate:
 
             for index, row in enumerate(reader):
 
-                movie = row[2]
-                actor_name = full_name(row[1], row[0])
+                movie = row[1]
+                actor_name = row[0]
 
                 actors.add(actor_name)
                 movies.add(movie)
+
+                if index > self.stop:
+                    break
 
         with open(ACTORS_FILE, mode='wb') as output_actors, open(MOVIE_FILE, mode='wb') as output_movie:
             pickle.dump(actors, output_actors)
