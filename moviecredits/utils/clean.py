@@ -1,5 +1,6 @@
 from typing import List
 import re
+import unicodedata
 
 """
 look up online movie database to check if its a movie
@@ -73,3 +74,37 @@ def clean(tv: List):
         # the list should at least contain (actor and movie)
         if len(newlist) > 2:
             return format(newlist)
+
+def unicode_normalise_movies_actors(row: List):
+    """
+    Remove diacritic marks for movies titles and actor names
+    """
+
+    tmp_movie = remove_end_space(row[2].lower())
+    tmp_actor_name = full_name(row[1], row[0]).lower()
+
+    actor_name = shave_marks(tmp_actor_name)
+    movie = shave_marks(tmp_movie)
+    return movie, actor_name
+
+
+def shave_marks(text):
+    """remove all diacritic marks"""
+    norm_txt = unicodedata.normalize('NFD', text)
+    shaved = ''.join(c for c in norm_txt if not unicodedata.combining(c))
+    return unicodedata.normalize('NFC', shaved)
+
+
+def full_name(first_name, last_name):
+    if first_name is None:
+        name = last_name
+        return name
+    else:
+        name = (first_name + " " + last_name)
+        return name
+
+def remove_end_space(text):
+    txt = text.rsplit()
+    new_txt = ' '.join(word for word in txt)
+    return new_txt
+
