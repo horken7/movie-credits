@@ -28,7 +28,7 @@ class Lookup:
     def movie_cast(self, title):
         """
         Get the cast of relevant movie titles from the given title
-        :return the cast of the movies
+        :return List of cast of the movies
         """
         casts_id = []
 

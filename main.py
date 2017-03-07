@@ -1,17 +1,12 @@
-from moviecredits.datacleaning import INPUT as FILE_DIR
-from moviecredits.utils import generate_subset
-from moviecredits.utils import generate_all
+import pickle
 import moviecredits.connections as connections
 import moviecredits.lookup as lookup
-# import network.heatmap as hm
 import moviecredits.network.makegraph as gg
-import pickle
+from datacleaning import root
+import os
 
-make = generate_subset.Generate(FILE_DIR, stop=100000)
-# make = generate_all.Generate(FILE_DIR)
-actor2movies, movie2actors, id2actors, id2movies, movies2id, actors2id = make.connection()
-top_actors = make.top_actors(actor2movies)
 
+# read in all the pickle files.
 
 def main():
     """
@@ -31,11 +26,38 @@ def main():
         print("weight %d "% connections_matrix[(colleagues_index[index], actor_index[index])])
     """
 
+    with open(os.path.join(root, 'actor2movies.pkl'), 'rb') as pklfile:
+        actor2movies = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'movie2actors.pkl'), 'rb') as pklfile:
+        movie2actors = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'id2actors.pkl'), 'rb') as pklfile:
+        id2actors = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'id2movies.pkl'), 'rb') as pklfile:
+        id2movies = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'actors2id.pkl'), 'rb') as pklfile:
+        actors2id = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'movies2id.pkl'), 'rb') as pklfile:
+        movies2id = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'top_actors.pkl'), 'rb') as pklfile:
+        top_actors = pickle.load(pklfile)
+
+    print(type(actors2id))
+
     find = lookup.Lookup(id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors)
     casts = find.movie_cast('bound')
-    actors = find.actor('ahmad')
+    actors = find.actor('ahmed')
+
+
 
     # actors, colleagues, connections_matrix = connections.matrix(top_actors, movie2actors)
+
+
     adj_matrix, edges = connections.adj_matrix(top_actors, movie2actors)
 
     # put zeros on the diagonal to make adjacency matrix
