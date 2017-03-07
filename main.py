@@ -1,11 +1,122 @@
+from moviecredits.datacleaning import INPUT as FILE_DIR
+from moviecredits.utils import generate_subset
+from moviecredits.utils import generate_all
 import moviecredits.connections as connections
 # import network.heatmap as hm
 import network.makegraph as gg
-# import numpy as np
-# import sys
-# import csv
-# from tempfile import TemporaryFile
 import pickle
+from typing import Set
+
+
+make = generate_subset.Generate(FILE_DIR, stop=100000)
+# make = generate_all.Generate(FILE_DIR)
+actor2movies, movie2actors, id2actors, id2movies, movies2id, actors2id = make.connection()
+top_actors = make.top_actors(actor2movies)
+
+
+class Lookup:
+
+    def __init__(self, id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors):
+        """
+        :param id2actors: Dict
+        :param id2movies: Dict
+        :param movies2id: Dict
+        :param actors2id: Dict
+        :param actor2movies: Defaultdict
+        :param movie2actors: Defaultdict
+        """
+        self.id2actors = id2actors
+        self.id2movies = id2movies
+        self.movies2id = movies2id
+        self.actors2id = actors2id
+        self.actor2movies = actor2movies
+        self.movie2actors = movie2actors
+
+    def convert_to_actor_name(self, ids: Set):
+        return [self.id2actors.get(id) for id in list(ids)]
+
+    def convert_to_movie_name(self, id):
+        """id: Integer"""
+        return self.id2movies.get(id)
+
+    def movie_cast(self, title):
+        """
+        Get the cast of relevant movie titles from the given title
+        :return the cast of the movies
+        """
+        casts_id = []
+
+        # find similar titles
+        movie_titles = (movie_title for movie_title in self.movies2id.keys() if title in movie_title)
+
+        # get the id
+        for movie in movie_titles:
+            movie_id = movies2id.get(movie)
+            cast_ids = movie2actors.get(movie_id)
+            casts_id.append((movie, cast_ids))
+
+            print()
+            print(movie)
+            for cast_id in cast_ids:
+                cast = id2actors.get(cast_id)
+                print(cast)
+
+        return casts_id
+
+
+    def actor(self, name):
+        """find the actor id"""
+
+        actor_id = []
+
+        actors = [actor_name for actor_name in self.actors2id.keys() if name in actor_name]
+        if actors:
+            for actor in actors:
+                print("actor", actor, "id:", self.actors2id.get(actor))
+                actor_id.append(self.actors2id.get(actor))
+            return actor_id
+        else:
+            exit("Error: no actors named {}".format(name))
+
+
+
+    def as_pairs(self):
+        # go through the movies
+        for _, movies in top_actors.items():
+            for movie in movies:
+
+                # convert to names
+                print("movieid: {} movie: {}, actorsid: {}, actors: {}".format(movie,
+                                                                               self.convert_to_movie_name(movie),
+                                                                               self.movie2actors.get(movie),
+                                                                               self.convert_to_actor_name(
+                                                                                   self.movie2actors.get(movie))))
+                # return actors
+                pairs = list(make.pair_actors(movie2actors.get(movie)))
+                if pairs:
+                    print(pairs)
+                else:
+                    print("skip, only one actor")
+
+    def example(self):
+
+        # go through the movies
+        for _, movies in self.actor2movies.items():
+            for movie in movies:
+
+                # convert to names
+                print("movieid: {} movie: {}, actorsid: {}, actors: {}".format(movie,
+                                                                               self.convert_to_movie_name(movie),
+                                                                               self.movie2actors.get(movie),
+                                                                               self.convert_to_actor_name(
+                                                                                   self.movie2actors.get(movie))))
+
+                # return actors
+                pairs = list(make.pair_actors(movie2actors.get(movie)))
+                if pairs:
+                    print(pairs)
+                else:
+                    print("skip, only one actor")
 
 
 def main():
@@ -25,9 +136,13 @@ def main():
         print("colleague {} | actor {}".format(colleagues[colleagues_index[index]], actors[actor_index[index]]))
         print("weight %d "% connections_matrix[(colleagues_index[index], actor_index[index])])
     """
-    # actors, colleagues, connections_matrix = connections.matrix()
 
-    adj_matrix, edges = connections.adj_matrix()
+    lookup = Lookup(id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors)
+    casts = lookup.movie_cast('bound')
+    actors = lookup.actor('ahmad')
+
+    # actors, colleagues, connections_matrix = connections.matrix(top_actors, movie2actors)
+    adj_matrix, edges = connections.adj_matrix(top_actors, movie2actors)
 
     # put zeros on the diagonal to make adjacency matrix
     for i in range(0,len(adj_matrix)):

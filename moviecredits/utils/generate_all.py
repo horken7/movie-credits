@@ -102,7 +102,7 @@ class Generate:
 
         print("Done: generating connections")
 
-        return actor2movies, movie2actors, id2actors, id2movies
+        return actor2movies, movie2actors, id2actors, id2movies, movies2id, actors2id
 
     def unique_actor_movie(self):
         """
