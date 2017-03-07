@@ -3,7 +3,7 @@ from moviecredits.utils import generate_subset
 from moviecredits.utils import generate_all
 import moviecredits.connections as connections
 # import network.heatmap as hm
-import network.makegraph as gg
+import moviecredits.network.makegraph as gg
 import pickle
 from typing import Set
 
