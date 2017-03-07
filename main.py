@@ -7,8 +7,6 @@ import moviecredits.lookup as lookup
 import moviecredits.network.makegraph as gg
 import pickle
 
-
-
 make = generate_subset.Generate(FILE_DIR, stop=100000)
 # make = generate_all.Generate(FILE_DIR)
 actor2movies, movie2actors, id2actors, id2movies, movies2id, actors2id = make.connection()
