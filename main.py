@@ -42,21 +42,35 @@ def main():
     # if you want to use the pickled file without having to run the entire program
     # remember to comment out the import files
     # adj_matrix = pickle.load(open("adjacency_matrix.pkl", "rb"))
-    # edges = pickle.load(open("edges.pkl", "rb"))
+
+
     # for index, info in edges.items():
     #         print(index, info.pair, info.weight)
 
     # run heatmap function
     # hm.plot_heatmap(adj_matrix)
 
+
+    # create temp data (this will be removed
+    colleagues = []
+    count=0
+    for index, info in edges.items():
+        same_node = bool(info.pair[0] == info.pair[1])
+        if (info.weight > 0 and not same_node and not info.pair[1] in colleagues and count<6):  # if there is a path between two nodes
+            colleagues.append(info.pair[1])
+            count+=1
+    actor = colleagues[1]
+    del colleagues[1]
+    print(colleagues)
+    print(actor)
+
     # run the make graph function
     # with temp data:
-    colleagues = [402992,115624,379731,41344,135259]
-    actor = 88316
+    # colleagues = [35290,14927,7546]
+    # actor = 37756
     threshold = 2
     debug = True # if true will plot each path
-    flag = gg.make_graph(edges,colleagues,actor,threshold,debug) #removed 'edges' while pickled graph
-
+    flag = gg.make_graph(edges,colleagues,actor,threshold,debug)
     if(flag == True):
         print('Input is flagged, please check')
     else:

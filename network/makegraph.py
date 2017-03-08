@@ -1,12 +1,12 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
-import time
-def make_graph(edges,colleagues,actor,threshold,debug): #removed 'edges' while pickled graph
+def make_graph(edges, colleagues, actor, threshold, debug): #removed 'edges' while pickled graph
 	G = nx.Graph()
 
 	for index, info in edges.items():
-		if(info.weight>0 and info.pair[0] != info.pair[1]): # if there is a path between two nodes
+		same_node = bool(info.pair[0] == info.pair[1])
+		if(info.weight>0 and not same_node): # if there is a path between two nodes
 			G.add_edge(info.pair[0], info.pair[1], weight=1000-info.weight) # invert weight to get longest path
 
 	nx.write_gpickle(G,open( "graph.pkl", "wb"))
@@ -14,11 +14,10 @@ def make_graph(edges,colleagues,actor,threshold,debug): #removed 'edges' while p
 	# read pickled graph
 	# G = nx.read_gpickle(open("graph.pkl", "rb"))
 
-
 	# calculate the shortest (longest) path between the actor and each colleague and save in longest_path
 	longest_path = []
 	for colleague in colleagues:
-		if(nx.has_path(G,colleague,actor)):
+		if nx.has_path(G, colleague, actor):
 			shortest = nx.dijkstra_path_length(G, colleague, actor)
 			path = nx.dijkstra_path(G, colleague, actor)
 			if(debug == True):
@@ -26,6 +25,7 @@ def make_graph(edges,colleagues,actor,threshold,debug): #removed 'edges' while p
 			tmp = len(path) - 1 # first element is start node
 			howlong = abs(shortest - tmp * 1000) # the length of the longest path
 			longest_path.append(howlong)
+
 		else:
 			longest_path.append(0)
 
