@@ -6,7 +6,7 @@ from datacleaning import root
 import os
 import scipy.io as sio
 import numpy as np
-
+import csv
 
 # read in all the pickle files.
 
@@ -83,12 +83,16 @@ def main():
     for index, info in edges.items():
         print(index, info.pair, info.weight)
 
+    print()
+    print("PageRank - Top Actors ID:")
     for top in top_num:
         for index, info in edges.items():
                 if top == index[0]:
-                    print()
                     print(info.pair[0])
                     break
+    print()
+
+
 
     # run heatmap function
     # hm.plot_heatmap(adj_matrix)
@@ -120,10 +124,10 @@ def main():
         print('Input passed test, no flags raised')
 
     # save to csv
-    # with open('actors_colleagues.csv','w+') as csvfile:
-    #     comma_out = csv.writer(csvfile, dialect=csv.excel)
-    #     for row in adj_matrix:
-    #         comma_out.writerow(row)
+    with open('actors_colleagues.csv','w+') as csvfile:
+        comma_out = csv.writer(csvfile, dialect=csv.excel)
+        for row in adj_matrix:
+            comma_out.writerow(row)
 
 if __name__ == '__main__':
     main()
