@@ -4,6 +4,8 @@ import moviecredits.lookup as lookup
 import moviecredits.network.makegraph as gg
 from datacleaning import root
 import os
+import scipy.io as sio
+import numpy as np
 
 
 # read in all the pickle files.
@@ -74,9 +76,19 @@ def main():
     # remember to comment out the import files
     # adj_matrix = pickle.load(open("adjacency_matrix.pkl", "rb"))
 
+    top_num = sio.loadmat('topNum.mat')
+    top_num = top_num['topNum']
+    top_num = top_num.flatten()
 
-    # for index, info in edges.items():
-    #         print(index, info.pair, info.weight)
+    for index, info in edges.items():
+        print(index, info.pair, info.weight)
+
+    for top in top_num:
+        for index, info in edges.items():
+                if top == index[0]:
+                    print()
+                    print(info.pair[0])
+                    break
 
     # run heatmap function
     # hm.plot_heatmap(adj_matrix)
