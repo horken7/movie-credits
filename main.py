@@ -1,12 +1,12 @@
-import moviecredits.connections as connections
-# import network.heatmap as hm
-import network.makegraph as gg
-# import numpy as np
-# import sys
-# import csv
-# from tempfile import TemporaryFile
 import pickle
+import moviecredits.connections as connections
+import moviecredits.lookup as lookup
+import moviecredits.network.makegraph as gg
+from datacleaning import root
+import os
 
+
+# read in all the pickle files.
 
 def main():
     """
@@ -25,9 +25,40 @@ def main():
         print("colleague {} | actor {}".format(colleagues[colleagues_index[index]], actors[actor_index[index]]))
         print("weight %d "% connections_matrix[(colleagues_index[index], actor_index[index])])
     """
-    # actors, colleagues, connections_matrix = connections.matrix()
 
-    adj_matrix, edges = connections.adj_matrix()
+    with open(os.path.join(root, 'actor2movies.pkl'), 'rb') as pklfile:
+        actor2movies = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'movie2actors.pkl'), 'rb') as pklfile:
+        movie2actors = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'id2actors.pkl'), 'rb') as pklfile:
+        id2actors = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'id2movies.pkl'), 'rb') as pklfile:
+        id2movies = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'actors2id.pkl'), 'rb') as pklfile:
+        actors2id = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'movies2id.pkl'), 'rb') as pklfile:
+        movies2id = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'top_actors.pkl'), 'rb') as pklfile:
+        top_actors = pickle.load(pklfile)
+
+    print(type(actors2id))
+
+    find = lookup.Lookup(id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors)
+    casts = find.movie_cast('bound')
+    actors = find.actor('ahmed')
+
+
+
+    # actors, colleagues, connections_matrix = connections.matrix(top_actors, movie2actors)
+
+
+    adj_matrix, edges = connections.adj_matrix(top_actors, movie2actors)
 
     # put zeros on the diagonal to make adjacency matrix
     for i in range(0,len(adj_matrix)):

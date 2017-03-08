@@ -1,6 +1,3 @@
-from moviecredits.datacleaning import INPUT as FILE_DIR
-from moviecredits.utils import generate_subset
-from moviecredits.utils import generate_all
 from typing import Set, Dict
 from collections import Counter, defaultdict, namedtuple
 import itertools
@@ -8,12 +5,8 @@ import array
 import numpy as np
 
 actor_pair = namedtuple('Actor_Pair', ['pair', 'weight'])
-make = generate_subset.Generate(FILE_DIR, stop=1000000)
-#make = generate_all.Generate(FILE_DIR)
-actor2movies, movie2actors, id2actors, id2movies = make.connection()
-top_actors = make.top_actors(actor2movies)
 
-def matrix():
+def matrix(top_actors, movie2actors):
     connections = Matrix(top_actors, movie2actors)
     # the location of the values are changing because the list creation are extracted from unordered data structures.
     # the relative values themselves should not change
@@ -23,16 +16,11 @@ def matrix():
 
     return connections.actors, connections.possible_colleagues, connections.get_matrix
 
-def adj_matrix():
+def adj_matrix(top_actors, movie2actors):
     connections = Matrix(top_actors, movie2actors)
     return connections.get_adj_matrix, connections.get_adj_edges
 
-def convert_to_actor_name(ids: Set):
-    return [id2actors.get(id) for id in list(ids)]
 
-def convert_to_movie_name(id):
-    """ids: Integer"""
-    return id2movies.get(id)
 
 # TODO End goal to be able to see the connections like this. In order to create a adjacency matrix
 
@@ -72,44 +60,6 @@ class Map_Actors:
 
     def __repr__(self):
         return "<Map_actors actor2actors:%s >" % (self._actor2actors)
-
-    def as_pairs(self):
-        # go through the movies
-        for _, movies in top_actors.items():
-            for movie in movies:
-
-                # convert to names
-                print("movieid: {} movie: {}, actorsid: {}, actors: {}".format(movie,
-                                                                               convert_to_movie_name(movie),
-                                                                               movie2actors.get(movie),
-                                                                               convert_to_actor_name(
-                                                                                   movie2actors.get(movie))))
-                # return actors
-                pairs = list(make.pair_actors(movie2actors.get(movie)))
-                if pairs:
-                    print(pairs)
-                else:
-                    print("skip, only one actor")
-
-    def example(self):
-
-        # go through the movies
-        for _, movies in self.actor2movies.items():
-            for movie in movies:
-
-                # convert to names
-                print("movieid: {} movie: {}, actorsid: {}, actors: {}".format(movie,
-                                                                               convert_to_movie_name(movie),
-                                                                               self.movie2actors.get(movie),
-                                                                               convert_to_actor_name(
-                                                                                   self.movie2actors.get(movie))))
-
-                # return actors
-                pairs = list(make.pair_actors(movie2actors.get(movie)))
-                if pairs:
-                    print(pairs)
-                else:
-                    print("skip, only one actor")
 
 
 class Matrix(Map_Actors):

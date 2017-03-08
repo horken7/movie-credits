@@ -5,6 +5,8 @@
 *.pkl
 *.list
 *.json
+*.pdf
+*.mat
 
 #cache
 __pycache__/*
@@ -21,3 +23,8 @@ test_space/*
 
 # personal
 TODO.md
+visualisation.ipynb
+tmp.py
+findingduplicates.py
+countfilelines.py
+personal/*
