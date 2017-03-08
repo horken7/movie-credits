@@ -1,4 +1,4 @@
-function [ ] = PageRank( )
+function [ topNum ] = PageRank( )
 clc;
 clear;
 
@@ -39,14 +39,14 @@ rnew;
 
 %% Plot
 
-for k1 = 1:nRows
-    for k2 = 1:nCols
-        adjPlot = adjMat(k1,k2);
-    end
-end
-
-G = digraph(index,index);
-plot(G,'Layout','force');
+% for k1 = 1:nRows
+%     for k2 = 1:nCols
+%         adjPlot = adjMat(k1,k2);
+%     end
+% end
+% 
+% G = digraph(index,index);
+% plot(G,'Layout','force');
 
 
 %% Top Actors
@@ -63,5 +63,8 @@ for i=1:num
 end
 
 topNum;
+
+save('topNum.mat', 'topNum');
+
 
 end
