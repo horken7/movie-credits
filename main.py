@@ -2,6 +2,7 @@ import pickle
 import moviecredits.connections as connections
 import moviecredits.lookup as lookup
 import moviecredits.network.makegraph as gg
+import numpy as np
 from datacleaning import root
 import os
 
@@ -26,6 +27,8 @@ def main():
         print("weight %d "% connections_matrix[(colleagues_index[index], actor_index[index])])
     """
 
+
+    # First run datacleaning to generate pickle files
     with open(os.path.join(root, 'actor2movies.pkl'), 'rb') as pklfile:
         actor2movies = pickle.load(pklfile)
 
@@ -47,65 +50,73 @@ def main():
     with open(os.path.join(root, 'top_actors.pkl'), 'rb') as pklfile:
         top_actors = pickle.load(pklfile)
 
-    print(type(actors2id))
-
     find = lookup.Lookup(id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors)
-    casts = find.movie_cast('bound')
-    actors = find.actor('ahmed')
 
+    for a, b in movie2actors.items():
+        if (len(b) > 5):
+            print(a)
+    print('hello')
+    print(actor2movies.get(2889))
+
+    # Finds tuples for all movies matching the search criterias
+    casts = find.movie_cast(id2movies.get(4555))
+    # Returns a list of all actors ids matching the searched name
+    actors = find.actor(id2actors.get(2889))
+
+    # do you want to update the adjacency matrix and edge data, updates if True
+    update = False
+
+    # Pick the first movie in the list and convert to array
+    colleagues = []
+    for i in casts[0][1]:
+        colleagues.append(i)
+
+    # Get the first actor in the array
+    actor = actors[0]
+
+    #colleagues = np.delete(colleagues, 0)
+    print(colleagues)
 
 
     # actors, colleagues, connections_matrix = connections.matrix(top_actors, movie2actors)
 
+    if(update==True):
+        adj_matrix, edges = connections.adj_matrix(top_actors, movie2actors)
 
-    adj_matrix, edges = connections.adj_matrix(top_actors, movie2actors)
-
-    # put zeros on the diagonal to make adjacency matrix
-    for i in range(0,len(adj_matrix)):
-        adj_matrix[i][i] = 0
-    print(adj_matrix)
-
-
-    # save to pickle format
-    pickle.dump(adj_matrix,open( "adjacency_matrix.pkl", "wb"))
-
-    # open pickle file
-    # if you want to use the pickled file without having to run the entire program
-    # remember to comment out the import files
-    # adj_matrix = pickle.load(open("adjacency_matrix.pkl", "rb"))
+        # put zeros on the diagonal to make adjacency matrix
+        for i in range(0,len(adj_matrix)):
+            adj_matrix[i][i] = 0
+        print(adj_matrix)
 
 
+        # save to pickle format
+        pickle.dump(adj_matrix,open( "adjacency_matrix.pkl", "wb"))
+
+    else:
+        # open pickle file
+        adj_matrix = pickle.load(open("adjacency_matrix.pkl", "rb"))
+        edges=[1]
+
+    # will print the information in edges
     # for index, info in edges.items():
     #         print(index, info.pair, info.weight)
+    #
+
 
     # run heatmap function
     # hm.plot_heatmap(adj_matrix)
 
 
-    # create temp data (this will be removed
-    colleagues = []
-    count=0
-    for index, info in edges.items():
-        same_node = bool(info.pair[0] == info.pair[1])
-        if (info.weight > 0 and not same_node and not info.pair[1] in colleagues and count<6):  # if there is a path between two nodes
-            colleagues.append(info.pair[1])
-            count+=1
-    actor = colleagues[1]
-    del colleagues[1]
-    print(colleagues)
-    print(actor)
-
     # run the make graph function
     # with temp data:
-    # colleagues = [35290,14927,7546]
-    # actor = 37756
-    threshold = 2
-    debug = True # if true will plot each path
-    flag = gg.make_graph(edges,colleagues,actor,threshold,debug)
-    if(flag == True):
-        print('Input is flagged, please check')
-    else:
-        print('Input passed test, no flags raised')
+    threshold=1
+    debug = False # if true will plot each path
+    flag = gg.make_graph(edges,colleagues,actor,threshold,debug,update)
+    print(flag)
+    # if(flag == True):
+    #     print('Input is flagged, please check')
+    # else:
+    #     print('Input passed test, no flags raised')
 
     # save to csv
     # with open('actors_colleagues.csv','w+') as csvfile:
