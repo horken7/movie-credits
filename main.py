@@ -5,7 +5,9 @@ import moviecredits.network.makegraph as gg
 import numpy as np
 from datacleaning import root
 import os
-
+import scipy.io as sio
+import numpy as np
+import csv
 
 # read in all the pickle files.
 
@@ -79,7 +81,6 @@ def main():
 
         # save to pickle format
         pickle.dump(adj_matrix,open( "adjacency_matrix.pkl", "wb"))
-
     else:
         # open pickle file
         adj_matrix = pickle.load(open("adjacency_matrix.pkl", "rb"))
@@ -89,6 +90,22 @@ def main():
     # for index, info in edges.items():
     #         print(index, info.pair, info.weight)
     #
+
+    top_num = sio.loadmat('topNum.mat')
+    top_num = top_num['topNum']
+    top_num = top_num.flatten()
+
+    for index, info in edges.items():
+        print(index, info.pair, info.weight)
+
+    print()
+    print("PageRank - Top Actors ID:")
+    for top in top_num:
+        for index, info in edges.items():
+                if top == index[0]:
+                    print(info.pair[0])
+                    break
+    print()
 
 
     # run heatmap function
@@ -107,10 +124,10 @@ def main():
     #     print('Input passed test, no flags raised')
 
     # save to csv
-    # with open('actors_colleagues.csv','w+') as csvfile:
-    #     comma_out = csv.writer(csvfile, dialect=csv.excel)
-    #     for row in adj_matrix:
-    #         comma_out.writerow(row)
+    with open('actors_colleagues.csv','w+') as csvfile:
+        comma_out = csv.writer(csvfile, dialect=csv.excel)
+        for row in adj_matrix:
+            comma_out.writerow(row)
 
 if __name__ == '__main__':
     main()
