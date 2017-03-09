@@ -58,7 +58,7 @@ class Generate:
         print("Finding top actors")
 
         # find actors who was in more than 100 movies.
-        top_actor = {actor: movies for actor, movies in actor2movies.items() if len(movies) > 70 and len(movies) < 80}
+        top_actor = {actor: movies for actor, movies in actor2movies.items()} # if len(movies) > 70 and len(movies) < 80
         return top_actor
 
     def connection(self):
