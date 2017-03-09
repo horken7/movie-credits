@@ -55,9 +55,13 @@ def main():
     find = lookup.Lookup(id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors)
 
     # Finds tuples for all movies matching the search criterias
-    casts = find.movie_cast('the legend of tarzan (2016)')
+    casts = find.movie_cast('ma 6-t va crack-er (1997)')
     # Returns a list of all actors ids matching the searched name
-    actors = find.actor('balthoff alfred')
+    actors = find.actor('abrahamsen samuel')
+    #achtymichuk spencer: ([5, 5, 5, 5, 23, 5, 5, 5, 5, 4, 5, 5, 5, 5, 5, 5], [6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 6, 6, 6, 6])
+    # abel walter: ([4, 4, 4, 4, 3, 5, 4, 4, 4, 2, 4, 4, 4, 4, 4, 4], [4, 4, 4, 4, 3, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 4])
+    # adamson hilary: 0
+    print(casts)
 
     # do you want to update the adjacency matrix and edge data, updates if True
     update = False
