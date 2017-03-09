@@ -52,19 +52,13 @@ def main():
 
     find = lookup.Lookup(id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors)
 
-    for a, b in movie2actors.items():
-        if (len(b) > 5):
-            print(a)
-    print('hello')
-    print(actor2movies.get(2889))
-
     # Finds tuples for all movies matching the search criterias
-    casts = find.movie_cast(id2movies.get(4555))
+    casts = find.movie_cast(id2movies.get(12961))
     # Returns a list of all actors ids matching the searched name
-    actors = find.actor(id2actors.get(2889))
+    actors = find.actor(id2actors.get(5558))
 
     # do you want to update the adjacency matrix and edge data, updates if True
-    update = False
+    update = True
 
     # Pick the first movie in the list and convert to array
     colleagues = []
@@ -73,12 +67,6 @@ def main():
 
     # Get the first actor in the array
     actor = actors[0]
-
-    #colleagues = np.delete(colleagues, 0)
-    print(colleagues)
-
-
-    # actors, colleagues, connections_matrix = connections.matrix(top_actors, movie2actors)
 
     if(update==True):
         adj_matrix, edges = connections.adj_matrix(top_actors, movie2actors)
