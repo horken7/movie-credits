@@ -19,6 +19,10 @@ def make_graph(edges,colleagues, actor, threshold, debug, update): #removed 'edg
 
     # calculate the shortest (longest) path between the actor and each colleague and save in longest_path
     longest_path = []
+    # nx.draw_networkx(G, pos, node_size=1, edge_size=1, with_labels=True, font_size=6)  # print entire graph
+    # pos = nx.spring_layout(G)  # positioning layout
+    #nx.draw_networkx_nodes(G, pos, nodelist=[actor], node_size=15, node_color='b')  # mark actor in blue
+    plt.show()
     for colleague in colleagues:
         try:
             if nx.has_path(G, colleague, actor):
@@ -51,7 +55,7 @@ def plot_graph(G,p,actor,colleauge):
     for i in range(len(p)-1):
         path.append((p[i],p[i+1])) # path list for printing
 
-    nx.draw_networkx(G, pos, node_size=1, edge_size=1) # print entire graph
+    nx.draw_networkx(G, pos, node_size=1, edge_size=1,with_labels=True,font_size=2) # plot entire graph
     nx.draw_networkx_edges(G, pos, edgelist=path,edge_color='r') # mark path in red
     nx.draw_networkx_nodes(G, pos, nodelist=[actor], node_size=25, node_color='b') # mark actor in blue
     nx.draw_networkx_nodes(G, pos, nodelist=[colleauge], node_size=25, node_color='g') # mark colleague in green

@@ -55,12 +55,12 @@ def main():
     find = lookup.Lookup(id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors)
 
     # Finds tuples for all movies matching the search criterias
-    casts = find.movie_cast(id2movies.get(12961))
+    casts = find.movie_cast('the legend of tarzan (2016)')
     # Returns a list of all actors ids matching the searched name
-    actors = find.actor(id2actors.get(5558))
+    actors = find.actor('balthoff alfred')
 
     # do you want to update the adjacency matrix and edge data, updates if True
-    update = True
+    update = False
 
     # Pick the first movie in the list and convert to array
     colleagues = []
@@ -69,6 +69,7 @@ def main():
 
     # Get the first actor in the array
     actor = actors[0]
+    print(actor)
 
     if(update==True):
         adj_matrix, edges = connections.adj_matrix(top_actors, movie2actors)
@@ -91,21 +92,21 @@ def main():
     #         print(index, info.pair, info.weight)
     #
 
-    top_num = sio.loadmat('topNum.mat')
-    top_num = top_num['topNum']
-    top_num = top_num.flatten()
-
-    for index, info in edges.items():
-        print(index, info.pair, info.weight)
-
-    print()
-    print("PageRank - Top Actors ID:")
-    for top in top_num:
-        for index, info in edges.items():
-                if top == index[0]:
-                    print(info.pair[0])
-                    break
-    print()
+    # top_num = sio.loadmat('topNum.mat')
+    # top_num = top_num['topNum']
+    # top_num = top_num.flatten()
+    #
+    # for index, info in edges.items():
+    #     print(index, info.pair, info.weight)
+    #
+    # print()
+    # print("PageRank - Top Actors ID:")
+    # for top in top_num:
+    #     for index, info in edges.items():
+    #             if top == index[0]:
+    #                 print(info.pair[0])
+    #                 break
+    # print()
 
 
     # run heatmap function
@@ -124,10 +125,10 @@ def main():
     #     print('Input passed test, no flags raised')
 
     # save to csv
-    with open('actors_colleagues.csv','w+') as csvfile:
-        comma_out = csv.writer(csvfile, dialect=csv.excel)
-        for row in adj_matrix:
-            comma_out.writerow(row)
+    # with open('actors_colleagues.csv','w+') as csvfile:
+    #     comma_out = csv.writer(csvfile, dialect=csv.excel)
+    #     for row in adj_matrix:
+    #         comma_out.writerow(row)
 
 if __name__ == '__main__':
     main()
