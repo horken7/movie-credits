@@ -11,6 +11,9 @@ import csv
 
 # read in all the pickle files.
 
+
+
+
 def main():
     """
     Usage for connections.matrix()
@@ -29,28 +32,7 @@ def main():
         print("weight %d "% connections_matrix[(colleagues_index[index], actor_index[index])])
     """
 
-
-    # First run datacleaning to generate pickle files
-    with open(os.path.join(root, 'actor2movies.pkl'), 'rb') as pklfile:
-        actor2movies = pickle.load(pklfile)
-
-    with open(os.path.join(root, 'movie2actors.pkl'), 'rb') as pklfile:
-        movie2actors = pickle.load(pklfile)
-
-    with open(os.path.join(root, 'id2actors.pkl'), 'rb') as pklfile:
-        id2actors = pickle.load(pklfile)
-
-    with open(os.path.join(root, 'id2movies.pkl'), 'rb') as pklfile:
-        id2movies = pickle.load(pklfile)
-
-    with open(os.path.join(root, 'actors2id.pkl'), 'rb') as pklfile:
-        actors2id = pickle.load(pklfile)
-
-    with open(os.path.join(root, 'movies2id.pkl'), 'rb') as pklfile:
-        movies2id = pickle.load(pklfile)
-
-    with open(os.path.join(root, 'top_actors.pkl'), 'rb') as pklfile:
-        top_actors = pickle.load(pklfile)
+    actor2movies, movie2actors, id2actors, id2movies, actors2id, movies2id, top_actors = load_pickle()
 
     find = lookup.Lookup(id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors)
 
@@ -91,21 +73,7 @@ def main():
     #         print(index, info.pair, info.weight)
     #
 
-    top_num = sio.loadmat('topNum.mat')
-    top_num = top_num['topNum']
-    top_num = top_num.flatten()
-
-    for index, info in edges.items():
-        print(index, info.pair, info.weight)
-
-    print()
-    print("PageRank - Top Actors ID:")
-    for top in top_num:
-        for index, info in edges.items():
-                if top == index[0]:
-                    print(info.pair[0])
-                    break
-    print()
+    # load_page_ranked_actors(edges)
 
 
     # run heatmap function
@@ -123,11 +91,59 @@ def main():
     # else:
     #     print('Input passed test, no flags raised')
 
-    # save to csv
+
+    # save_adj_as_csv()
+
+def load_pickle():
+    # First run datacleaning to generate pickle files
+    with open(os.path.join(root, 'actor2movies.pkl'), 'rb') as pklfile:
+        actor2movies = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'movie2actors.pkl'), 'rb') as pklfile:
+        movie2actors = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'id2actors.pkl'), 'rb') as pklfile:
+        id2actors = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'id2movies.pkl'), 'rb') as pklfile:
+        id2movies = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'actors2id.pkl'), 'rb') as pklfile:
+        actors2id = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'movies2id.pkl'), 'rb') as pklfile:
+        movies2id = pickle.load(pklfile)
+
+    with open(os.path.join(root, 'top_actors.pkl'), 'rb') as pklfile:
+        top_actors = pickle.load(pklfile)
+
+    return actor2movies, movie2actors, id2actors, id2movies, actors2id, movies2id, top_actors
+
+
+def load_page_ranked_actors(edges):
+    top_num = sio.loadmat('topNum.mat')
+    top_num = top_num['topNum']
+    top_num = top_num.flatten()
+
+    for index, info in edges.items():
+        print(index, info.pair, info.weight)
+
+    print()
+    print("PageRank - Top Actors ID:")
+    for top in top_num:
+        for index, info in edges.items():
+            if top == index[0]:
+                print(info.pair[0])
+                break
+    print()
+
+def save_adj_as_csv():
+    """save adjacency matrix in csv format for page ranking in matlab"""
     with open('actors_colleagues.csv','w+') as csvfile:
         comma_out = csv.writer(csvfile, dialect=csv.excel)
         for row in adj_matrix:
             comma_out.writerow(row)
+
 
 if __name__ == '__main__':
     main()
