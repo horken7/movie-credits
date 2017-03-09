@@ -14,8 +14,8 @@ def main():
     """
 
 
-    # make = generate_all.Generate(FILE_DIR)
-    make = generate_subset.Generate(root, file, stop=100000)
+    #make = generate_all.Generate(root, file)
+    make = generate_subset.Generate(root, file, stop=50000)
     actor2movies, movie2actors, id2actors, id2movies, actors2id, movies2id = make.connection()
     top_actors = make.top_actors(actor2movies)
 
