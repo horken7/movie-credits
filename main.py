@@ -6,40 +6,18 @@ import numpy as np
 from datacleaning import root
 import os
 import scipy.io as sio
-import numpy as np
 import csv
-
-# read in all the pickle files.
-
-
 
 
 def main():
 
     actor2movies, movie2actors, id2actors, id2movies, actors2id, movies2id, top_actors = load_pickle()
 
-    find = lookup.Lookup(id2actors, id2movies, movies2id, actors2id, actor2movies, movie2actors)
-
-    # Finds tuples for all movies matching the search criterias
-    casts = find.movie_cast(id2movies.get(12961))
-    # Returns a list of all actors ids matching the searched name
-    actors = find.actor(id2actors.get(5558))
-
-
-
-    # Pick the first movie in the list and convert to array
-    colleagues = []
-    for i in casts[0][1]:
-        colleagues.append(i)
-
-    # Get the first actor in the array
-    actor = actors[0]
-
     # do you want to update the adjacency matrix and edge data, updates if True
     update = True
 
     if(update):
-        adj_matrix, edges = connections.adj_matrix(top_actors, movie2actors)
+        adj_matrix, edges, actor2actors_movies = connections.adj_matrix(top_actors, movie2actors)
 
         # put zeros on the diagonal to make adjacency matrix
         for i in range(0,len(adj_matrix)):
@@ -54,7 +32,26 @@ def main():
         edges=[1]
 
 
-    top_actors = load_page_ranked_actors(edges, id2actors)
+    find = lookup.Lookup(id2actors, id2movies, movies2id, actors2id, top_actors, actor2actors_movies)
+
+    print(actor2actors_movies)
+
+
+    # Finds tuples for all movies matching the search criterias
+    casts = find.movie_cast(id2movies.get(12961))
+    # Returns a list of all actors ids matching the searched name
+    actors = find.actor(id2actors.get(5558))
+
+    # Pick the first movie in the list and convert to array
+    colleagues = []
+    for i in casts[0][1]:
+        colleagues.append(i)
+
+    # Get the first actor in the array
+    actor = actors[0]
+   
+    top_page_ranked_actors = load_page_ranked_actors(edges, id2actors)
+
 
     # view_heatmap(adj_matrix)
 

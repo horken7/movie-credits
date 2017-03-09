@@ -18,7 +18,11 @@ def matrix(top_actors, movie2actors):
 
 def adj_matrix(top_actors, movie2actors):
     connections = Matrix(top_actors, movie2actors)
-    return connections.get_adj_matrix, connections.get_adj_edges
+    return connections.get_adj_matrix, connections.get_adj_edges, connections.get_actor2actors_movies
+
+
+
+
 
 
 
@@ -30,7 +34,9 @@ class Map_Actors:
         self.actor2movies = actor2movies
         self.movie2actors = movie2actors
         self._actor2actors = defaultdict(list)
+        self.actor2actors_movies = {}
         self.actor2actors()
+
 
     def actor2actors(self):
         """
@@ -43,6 +49,9 @@ class Map_Actors:
                 # return cast
                 cast = list(self.movie2actors.get(movie))
                 self._actor2actors[actor].append(cast)
+
+                # add the movies and cast to filtered version of movie2actors
+                self.actor2actors_movies[movie] = cast
 
             # join list of lists
             merged_list = list(itertools.chain.from_iterable(self._actor2actors[actor]))
@@ -62,10 +71,12 @@ class Map_Actors:
         return "<Map_actors actor2actors:%s >" % (self._actor2actors)
 
 
+
+
 class Matrix(Map_Actors):
 
-    def __init__(self, top_actors, movie2actors):
-        super(Matrix, self).__init__(top_actors, movie2actors)
+    def __init__(self, actor2movies, movie2actors):
+        super(Matrix, self).__init__(actor2movies, movie2actors)
         self.actors = set()
         self.possible_colleagues = set()
 
@@ -96,6 +107,10 @@ class Matrix(Map_Actors):
     @property
     def get_actor2actors(self):
         return self.actor2movies
+
+    @property
+    def get_actor2actors_movies(self):
+        return self.actor2actors_movies
 
     def _build_list(self):
         """
