@@ -54,7 +54,7 @@ def main():
         edges=[1]
 
 
-    # load_page_ranked_actors(edges)
+    top_actors = load_page_ranked_actors(edges, id2actors)
 
     # view_heatmap(adj_matrix)
 
@@ -88,7 +88,7 @@ def load_pickle():
     return actor2movies, movie2actors, id2actors, id2movies, actors2id, movies2id, top_actors
 
 
-def load_page_ranked_actors(edges):
+def load_page_ranked_actors(edges, id2actors):
     top_num = sio.loadmat('topNum.mat')
     top_num = top_num['topNum']
     top_num = top_num.flatten()
@@ -98,12 +98,16 @@ def load_page_ranked_actors(edges):
 
     print()
     print("PageRank - Top Actors ID:")
+    top_actors = []
     for top in top_num:
         for index, info in edges.items():
             if top == index[0]:
                 print(info.pair[0])
+                print(id2actors.get(info.pair[0]))
+                top_actors.append(id2actors.get(info.pair[0]))
                 break
     print()
+    return top_actors
 
 def save_adj_as_csv(adj_matrix):
     """save adjacency matrix in csv format for page ranking in matlab"""
