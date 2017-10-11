@@ -1,3 +1,14 @@
+### Introduction 
+The Internet Movie Database, more commonly known as IMDb, is an online database storing information regarding films, television shows and video games. Such information consists of a cast and crew for each production, fictional characters, biographies, plot summaries, trivia and reviews. IMDb allows registered users to submit new material and edit existing entries. Despite the data being regulated the system has succumbed to occasional errors and misuse. Hence, the task at hand is to develop a system whereby existing data can be used to flag up a new credit if it does not fit in with said existing data. In this case, the project is limited to investigating if the recurrence of actors starring in the same movies together can be used to establish the authenticity of information supplied about a new credit (i.e., whether a certain actor did indeed feature in a movie based on whether they have previously co-starred with any of the other actors in said movie in a previous existing credit) and flag up if this does not fit with previously known credits. 
+
+
+The data chosen to be analysed to uncover this relationship is categorised by actors in relation to movies they have featured in. The structure of the data allows us to analyse the problem as a network, where actors are connected by the movies they have co-starred in. There exists multiple approaches to analyse a network to uncover features of the data, including labelling, clustering, shortest path, PageRank, etc. The basic idea of network analysis independent of approach is to uncover features of the data, then to compare different data points to see how much their features differ.
+
+### Task
+Through comparing the features of newly submitted data to the features of existing data related to the submission, it is possible to determine if the submission is probable or not, and flag thereafter.
+
+
+---
 ### Running Andrew's Code works on Windows/Linux/MacOSX
 
 
